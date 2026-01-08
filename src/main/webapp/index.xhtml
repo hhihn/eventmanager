@@ -1,13 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="jakarta.faces.core"
-      xmlns:h="jakarta.faces.html">
-<f:view>
-    <h:head></h:head>
-    <h:body>
-        Hello World! <br/>
-        <a href="hello-servlet">Hello Servlet</a>
-    </h:body>
-</f:view>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <meta charset="UTF-8"/>
+    <title>Conference Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:graphicImage
+            value = "https://www.iu.de/logos/iu-logo.svg" width="150px"/>
+
+    <h1>Event Management System</h1>
+    <h3>DSBPIIJEE01 - Programmierung industrieller Informationssysteme mit Java EE - WS 2025/26</h3>
+    <div class="info-box">
+        <p class="success">JSF funktioniert!</p>
+    </div>
+
+    <h2>Nächste Schritte:</h2>
+    <ul>
+        <li>Entities erstellen (Veranstaltung, Session, Teilnehmer)</li>
+        <li>Managed Beans anlegen</li>
+        <li>Views implementieren</li>
+    </ul>
+
+    <h:form>
+        <h:commandButton value="Seite neu laden"
+                         style="padding: 10px 20px; cursor: pointer;"/>
+    </h:form>
+
+    <h:outputLink value="#{request.contextPath}/hello-servlet">
+        <h:outputText value="Servlet aufrufen"/>
+    </h:outputLink>
+</h:body>
+
 </html>
