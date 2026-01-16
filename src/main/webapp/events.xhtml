@@ -7,25 +7,36 @@
 <ui:composition template="/templates/layout.xhtml">
     <ui:define name="content">
         <h1>Veranstaltungen</h1>
-        <h:dataTable styleClass="event-table">
+        <h:dataTable value="#{eventBean.events}"
+                     var="event"
+                     styleClass="event-table">
 
             <h:column>
                 <f:facet name="header">Event</f:facet>
+                #{event.name}
             </h:column>
 
             <h:column>
                 <f:facet name="header">Ort</f:facet>
+                #{event.location}
             </h:column>
 
             <h:column>
                 <f:facet name="header">Datum</f:facet>
+                #{event.date}
             </h:column>
 
             <h:column>
                 <f:facet name="header">Status</f:facet>
+                <h:selectOneMenu value="#{event.status}">
+                    <f:selectItems value="#{eventBean.availableStatuses}"/>
+                </h:selectOneMenu>
             </h:column>
 
         </h:dataTable>
+
+        <h:commandButton value="Änderungen Speichern"
+                         action="#{eventBean.save}"/>
     </ui:define>
 </ui:composition>
 
