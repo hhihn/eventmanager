@@ -1,6 +1,10 @@
 package iu.piisj.eventmanager.event;
 
+import iu.piisj.eventmanager.participant.Participant;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "events")
@@ -17,6 +21,9 @@ public class Event {
     public void setName(String name) {
         this.name = name;
     }
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<Participant> participants = new ArrayList<>();
 
     private String name;
     private String location;
@@ -64,4 +71,6 @@ public class Event {
     public void setState(String state) {
         this.state = state;
     }
+
+    public List<Participant> getParticipants() { return this.participants; }
 }

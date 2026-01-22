@@ -1,5 +1,6 @@
 package iu.piisj.eventmanager.participant;
 
+import iu.piisj.eventmanager.event.Event;
 import jakarta.mail.Part;
 import jakarta.persistence.*;
 
@@ -15,6 +16,10 @@ public class Participant {
     private String firstname;
     private String email;
     private String state;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
 
     protected Participant(){}
 
