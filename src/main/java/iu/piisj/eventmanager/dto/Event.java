@@ -5,17 +5,28 @@ public class Event {
     private String name;
     private String location;
     private String date;
-    private String status;
+    private String state;
 
-    public Event(String name, String location, String date, String status) {
+    public Event(String name, String location, String date, String state){
         this.name = name;
         this.location = location;
         this.date = date;
-        this.status = status;
+        this.state = state;
     }
 
-    public String getName() { return name; }
-    public String getLocation() { return location; }
-    public String getDate() { return date; }
-    public String getStatus() { return status; }
+    public String getState() {
+        return state;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

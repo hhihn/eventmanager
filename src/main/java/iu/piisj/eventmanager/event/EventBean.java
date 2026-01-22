@@ -11,11 +11,13 @@ import java.util.List;
 public class EventBean {
 
     public List<Event> getEvents() {
+
         return List.of(
                 new Event("Java EE Konferenz", "Berlin", "15.03.2026", "Geplant"),
-                new Event("Cloud Workshop", "Hamburg", "22.04.2026", "Offen"),
-                new Event("DevOps Summit", "München", "10.05.202G6", "Abgeschlossen")
+                new Event("Cloud Workshop", "Hamburg", "22.04.2026", "Offent"),
+                new Event("DevOps Summit", "Düsseldorf", "14.12.2025", "Abgeschlossen")
         );
+
     }
 
     public List<String> getAvailableStatuses() {
