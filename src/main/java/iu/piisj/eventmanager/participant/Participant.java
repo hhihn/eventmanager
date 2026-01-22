@@ -1,7 +1,6 @@
 package iu.piisj.eventmanager.participant;
 
 import iu.piisj.eventmanager.event.Event;
-import jakarta.mail.Part;
 import jakarta.persistence.*;
 
 @Entity
