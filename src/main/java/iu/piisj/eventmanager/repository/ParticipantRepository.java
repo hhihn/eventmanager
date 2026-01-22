@@ -1,4 +1,4 @@
-package iu.piisj.eventmanager.repositories;
+package iu.piisj.eventmanager.repository;
 
 import iu.piisj.eventmanager.participant.Participant;
 import jakarta.enterprise.context.ApplicationScoped;
