@@ -14,7 +14,7 @@ public class EventBean {
         return List.of(
                 new Event("Java EE Konferenz", "Berlin", "15.03.2026", "Geplant"),
                 new Event("Cloud Workshop", "Hamburg", "22.04.2026", "Offen"),
-                new Event("DevOps Summit", "München", "10.05.2026", "Abgeschlossen")
+                new Event("DevOps Summit", "München", "10.05.202G6", "Abgeschlossen")
         );
     }
 
