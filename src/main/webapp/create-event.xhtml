@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/templates/layout.xhtml">
+
+  <ui:define name="content">
+
+    <h2>Veranstaltung anlegen</h2>
+
+    <h:form>
+
+      <h:panelGrid columns="2">
+        <h:outputLabel for="name" value="Name"/>
+        <h:inputText id="name" value="#{eventBean.newEventDTO.name}" required="true"/>
+
+        <h:outputLabel for="location" value="Ort"/>
+        <h:inputText id="location" value="#{eventBean.newEventDTO.location}" required="true"/>
+
+        <h:outputLabel for="date" value="Datum"/>
+        <h:inputText id="date" value="#{eventBean.newEventDTO.date}" required="true"/>
+
+        <h:outputLabel for="state" value="Status"/>
+        <h:selectOneMenu id="state" value="#{eventBean.newEventDTO.state}" required="true">
+          <f:selectItems value="#{eventBean.availableStatuses}"/>
+        </h:selectOneMenu>
+      </h:panelGrid>
+      <br/>
+
+      <h:commandButton value="Speichern" action="#{eventBean.saveEvent}"/>
+
+    </h:form>
+  </ui:define>
+
+</ui:composition>
+
+</html>

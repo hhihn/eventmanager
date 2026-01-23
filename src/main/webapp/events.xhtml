@@ -35,8 +35,10 @@
 
         </h:dataTable>
         <br></br>
-        <h:commandButton value="Änderungen Speichern"
-                         action="#{eventBean.save}"/>
+        <h:form>
+            <h:commandButton value="Neue Veranstaltung anlegen"
+                             action="create-event?faces-redirect=true"/>
+        </h:form>
     </ui:define>
 </ui:composition>
 

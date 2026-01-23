@@ -14,6 +14,8 @@ public class EventDTO {
         this.state = state;
     }
 
+    public EventDTO() {}
+
     public String getState() {
         return state;
     }
@@ -28,5 +30,21 @@ public class EventDTO {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }
