@@ -1,20 +1,60 @@
 package iu.piisj.eventmanager.participant;
 
 import iu.piisj.eventmanager.dto.ParticipantDTO;
-import jakarta.enterprise.context.RequestScoped;
+import iu.piisj.eventmanager.event.Event;
+import iu.piisj.eventmanager.participant.Participant;
+import iu.piisj.eventmanager.repository.EventRepository;
+import iu.piisj.eventmanager.repository.ParticipantRepository;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Named
-@RequestScoped
-public class ParticipantBean {
+@ViewScoped
+public class ParticipantBean implements Serializable {
 
-    public List<ParticipantDTO> getParticipants(){
-        return List.of(
-                new ParticipantDTO("Mustermann", "Max", "maxmustermann@mail.com", "Aktiv"),
-                new ParticipantDTO("Mustermann", "Eva", "evamustermann@mail.com", "Inaktiv")
-        );
+    @Inject
+    private ParticipantRepository participantRepository;
+
+    @Inject
+    private EventRepository eventRepository;
+
+    private ParticipantDTO newParticipant = new ParticipantDTO();
+
+    public ParticipantDTO getNewParticipant() {
+        return newParticipant;
     }
 
+    public List<Participant> getAllParticipants() {
+        return participantRepository.findAll();
+    }
+
+    public List<Event> getAllEvents() {
+        return eventRepository.findAll();
+    }
+
+    public List<String> getAvailableStates() {
+        return List.of("Angemeldet", "Teilgenommen", "Abgemeldet");
+    }
+
+    public void saveParticipant() {
+
+        Event event = eventRepository.findById(newParticipant.getEventId());
+
+        Participant participant = new Participant(
+                newParticipant.getFirstname(),
+                newParticipant.getName(),
+                newParticipant.getEmail(),
+                newParticipant.getState(),
+                event
+        );
+
+        participantRepository.save(participant);
+
+        // Formular zurücksetzen
+        newParticipant = new ParticipantDTO();
+    }
 }

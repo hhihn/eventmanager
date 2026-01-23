@@ -22,11 +22,12 @@ public class Participant {
 
     protected Participant(){}
 
-    public Participant(String name, String firstname, String email, String state){
+    public Participant(String name, String firstname, String email, String state, Event event){
         this.firstname = firstname;
         this.name = name;
         this.email = email;
         this.state = state;
+        this.event = event;
     }
 
     public String getName() {

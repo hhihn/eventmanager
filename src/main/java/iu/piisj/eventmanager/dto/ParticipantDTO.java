@@ -23,6 +23,8 @@ public class ParticipantDTO {
         return state;
     }
 
+    public ParticipantDTO() {}
+
     public ParticipantDTO(String name, String firstname, String email, String state){
         this.email = email;
         this.name = name;
