@@ -1,6 +1,6 @@
 package iu.piisj.eventmanager.dto;
 
-public class Participant {
+public class ParticipantDTO {
 
     private String name;
     private String firstname;
@@ -23,7 +23,7 @@ public class Participant {
         return state;
     }
 
-    public Participant(String name, String firstname, String email, String state){
+    public ParticipantDTO(String name, String firstname, String email, String state){
         this.email = email;
         this.name = name;
         this.firstname = firstname;

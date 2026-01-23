@@ -1,7 +1,9 @@
 package iu.piisj.eventmanager.event;
 
-import iu.piisj.eventmanager.dto.Event;
+import iu.piisj.eventmanager.dto.EventDTO;
+import iu.piisj.eventmanager.repository.EventRepository;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.util.List;
@@ -10,14 +12,11 @@ import java.util.List;
 @RequestScoped
 public class EventBean {
 
-    public List<Event> getEvents() {
+    @Inject
+    private EventRepository eventRepository;
 
-        return List.of(
-                new Event("Java EE Konferenz", "Berlin", "15.03.2026", "Geplant"),
-                new Event("Cloud Workshop", "Hamburg", "22.04.2026", "Offent"),
-                new Event("DevOps Summit", "Düsseldorf", "14.12.2025", "Abgeschlossen")
-        );
-
+    public List<Event> getAllEvents() {
+        return this.eventRepository.findAll();
     }
 
     public List<String> getAvailableStatuses() {

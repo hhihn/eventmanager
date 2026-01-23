@@ -1,6 +1,6 @@
 package iu.piisj.eventmanager.participant;
 
-import iu.piisj.eventmanager.dto.Participant;
+import iu.piisj.eventmanager.dto.ParticipantDTO;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 
@@ -10,10 +10,10 @@ import java.util.List;
 @RequestScoped
 public class ParticipantBean {
 
-    public List<Participant> getParticipants(){
+    public List<ParticipantDTO> getParticipants(){
         return List.of(
-                new Participant("Mustermann", "Max", "maxmustermann@mail.com", "Aktiv"),
-                new Participant("Mustermann", "Eva", "evamustermann@mail.com", "Inaktiv")
+                new ParticipantDTO("Mustermann", "Max", "maxmustermann@mail.com", "Aktiv"),
+                new ParticipantDTO("Mustermann", "Eva", "evamustermann@mail.com", "Inaktiv")
         );
     }
 

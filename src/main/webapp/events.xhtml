@@ -7,7 +7,7 @@
 <ui:composition template="/templates/layout.xhtml">
     <ui:define name="content">
         <h1>Veranstaltungen</h1>
-        <h:dataTable value="#{eventBean.events}"
+        <h:dataTable value="#{eventBean.getAllEvents()}"
                      var="event"
                      styleClass="event-table">
 

@@ -1,13 +1,13 @@
 package iu.piisj.eventmanager.dto;
 
-public class Event {
+public class EventDTO {
 
     private String name;
     private String location;
     private String date;
     private String state;
 
-    public Event(String name, String location, String date, String state){
+    public EventDTO(String name, String location, String date, String state){
         this.name = name;
         this.location = location;
         this.date = date;
