@@ -11,7 +11,7 @@
         <properties>
             <!-- Für die Datenbank selbst -->
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:file:/Users/heinke.hihn/IdeaProjects/eventmanager Kopie/data/eventdb;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:file:/Users/heinke.hihn/IdeaProjects/eventmanager/data/eventdb;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE"/>
             <property name="jakarta.persistence.jdbc.user" value="sa"/>
             <property name="jakarta.persistence.jdbc.password" value=""/>
             
