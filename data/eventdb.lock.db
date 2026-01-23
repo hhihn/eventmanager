@@ -1,0 +1,6 @@
+#FileLock
+#Fri Jan 23 17:15:28 UTC 2026
+hostName=192.168.178.104
+id=19bebda926c4e5ae036766243c20ad4c70790c6e7a2
+method=file
+server=192.168.178.104\:64915
