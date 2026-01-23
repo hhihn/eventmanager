@@ -2,9 +2,10 @@ package iu.piisj.eventmanager.participant;
 
 import iu.piisj.eventmanager.dto.ParticipantDTO;
 import iu.piisj.eventmanager.event.Event;
-import iu.piisj.eventmanager.participant.Participant;
+import jakarta.faces.context.FacesContext;
 import iu.piisj.eventmanager.repository.EventRepository;
 import iu.piisj.eventmanager.repository.ParticipantRepository;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -54,7 +55,14 @@ public class ParticipantBean implements Serializable {
 
         participantRepository.save(participant);
 
-        // Formular zurücksetzen
+        FacesContext.getCurrentInstance().addMessage(
+                null,
+                new FacesMessage(
+                        FacesMessage.SEVERITY_INFO,
+                        "Erfolg",
+                        "Der Teilnehmer wurde erfolgreich angelegt."
+                )
+        );
         newParticipant = new ParticipantDTO();
     }
 }

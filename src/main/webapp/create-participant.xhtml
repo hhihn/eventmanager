@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/templates/layout.xhtml">
+
+  <ui:define name="content">
+
+    <h2>Teilnehmenden anlegen</h2>
+
+    <!-- Erfolg / Fehlermeldungen -->
+    <h:messages globalOnly="true" styleClass="info-box"/>
+
+    <h:form id="participantForm">
+
+      <h:panelGrid columns="2">
+
+        <!-- Vorname -->
+        <h:outputLabel for="firstname" value="Vorname"/>
+        <h:inputText id="firstname"
+                     value="#{participantBean.newParticipant.firstname}"
+                     required="true"/>
+
+        <!-- Nachname -->
+        <h:outputLabel for="name" value="Nachname"/>
+        <h:inputText id="name"
+                     value="#{participantBean.newParticipant.name}"
+                     required="true"/>
+
+        <!-- E-Mail -->
+        <h:outputLabel for="email" value="E-Mail"/>
+        <h:inputText id="email"
+                     value="#{participantBean.newParticipant.email}"
+                     required="true"/>
+
+        <!-- Status -->
+        <h:outputLabel for="state" value="Status"/>
+        <h:selectOneMenu id="state"
+                         value="#{participantBean.newParticipant.state}">
+          <f:selectItems value="#{participantBean.availableStates}"/>
+        </h:selectOneMenu>
+
+        <!-- Event-Auswahl -->
+        <h:outputLabel for="event" value="Veranstaltung"/>
+        <h:selectOneMenu id="event"
+                         value="#{participantBean.newParticipant.eventId}"
+                         required="true">
+
+          <f:selectItem itemLabel="Bitte auswählen"
+                        itemValue=""/>
+
+          <f:selectItems value="#{participantBean.getAllEvents()}"
+                         var="event"
+                         itemValue="#{event.id}"
+                         itemLabel="#{event.name} (#{event.location})"/>
+        </h:selectOneMenu>
+
+      </h:panelGrid>
+
+      <br/>
+
+      <!-- Speichern -->
+      <h:commandButton value="Teilnehmer speichern"
+                       action="#{participantBean.saveParticipant}"/>
+
+    </h:form>
+
+  </ui:define>
+
+</ui:composition>
+</html>
