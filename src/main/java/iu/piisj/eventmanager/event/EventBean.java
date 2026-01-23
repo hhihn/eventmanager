@@ -18,16 +18,9 @@ public class EventBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        events = new ArrayList<>(List.of(
-                new Event("Java EE Konferenz", "Berlin", "15.03.2026", "Geplant"),
-                new Event("Cloud Workshop", "Hamburg", "22.04.2026", "Offen"),
-                new Event("DevOps Summit", "Düsseldorf", "14.12.2025", "Abgeschlossen")
-        ));
 
         newEvent = new Event("", "", "", "Geplant");
     }
-
-    // ===== Getter =====
 
     public List<Event> getEvents() {
         return events;
@@ -40,8 +33,6 @@ public class EventBean implements Serializable {
     public List<String> getAvailableStatuses() {
         return List.of("Geplant", "Offen", "Abgeschlossen");
     }
-
-    // ===== ACTION METHOD (FEHLTE!) =====
 
     public void addEvent() {
         events.add(newEvent);

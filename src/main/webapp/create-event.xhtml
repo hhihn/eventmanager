@@ -2,8 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:f="jakarta.faces.core"
-      xmlns:ui="jakarta.faces.facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="jakarta.faces.facelets">
 
 <ui:composition template="/templates/layout.xhtml">
 
@@ -11,45 +10,37 @@
 
     <h2>Neue Veranstaltung anlegen</h2>
 
-    <h:form id="eventForm">
+    <h:form>
 
-      <p:messages showDetail="true" />
+      <h:panelGrid columns="2">
 
-      <p:panel header="Veranstaltungsdaten">
+        <h:outputLabel for="name" value="Name"/>
+        <h:inputText id="name"
+                     value="#{eventBean.newEvent.name}"
+                     required="true"/>
 
-        <p:panelGrid columns="2" columnClasses="label,value">
+        <h:outputLabel for="location" value="Ort"/>
+        <h:inputText id="location"
+                     value="#{eventBean.newEvent.location}"
+                     required="true"/>
 
-          <p:outputLabel for="name" value="Name"/>
-          <p:inputText id="name"
-                       value="#{eventBean.newEvent.name}"
-                       required="true"/>
+        <h:outputLabel for="date" value="Datum"/>
+        <h:inputText id="date"
+                     value="#{eventBean.newEvent.date}"
+                     required="true"/>
 
-          <p:outputLabel for="location" value="Ort"/>
-          <p:inputText id="location"
-                       value="#{eventBean.newEvent.location}"
-                       required="true"/>
+        <h:outputLabel for="state" value="Status"/>
+        <h:selectOneMenu id="state"
+                         value="#{eventBean.newEvent.state}">
+          <f:selectItems value="#{eventBean.availableStatuses}"/>
+        </h:selectOneMenu>
 
-          <p:outputLabel for="date" value="Datum"/>
-          <p:calendar id="date"
-                      value="#{eventBean.newEvent.date}"
-                      pattern="dd.MM.yyyy"
-                      showIcon="true"/>
+      </h:panelGrid>
 
-          <p:outputLabel for="state" value="Status"/>
-          <p:selectOneMenu id="state"
-                           value="#{eventBean.newEvent.state}">
-            <f:selectItems value="#{eventBean.availableStatuses}"/>
-          </p:selectOneMenu>
+      <br/>
 
-        </p:panelGrid>
-
-        <br/>
-
-        <p:commandButton value="Veranstaltung anlegen"
-
-                         update="@form"/>
-
-      </p:panel>
+      <h:commandButton value="Speichern"
+                       action="#{eventBean.addEvent()}"/>
 
     </h:form>
 

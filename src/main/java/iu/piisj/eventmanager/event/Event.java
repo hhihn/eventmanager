@@ -14,14 +14,6 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Participant> participants = new ArrayList<>();
 
@@ -72,5 +64,17 @@ public class Event {
         this.state = state;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public List<Participant> getParticipants() { return this.participants; }
+
+    public void setParticipants(List<Participant> participants) {
+        this.participants = participants;
+    }
 }
