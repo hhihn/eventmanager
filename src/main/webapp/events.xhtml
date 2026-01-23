@@ -7,7 +7,7 @@
 <ui:composition template="/templates/layout.xhtml">
     <ui:define name="content">
         <h1>Veranstaltungen</h1>
-        <h:dataTable value="#{eventBean.getAll}"
+        <h:dataTable value="#{eventBean.getAllEvents()}"
                      var="event"
                      styleClass="event-table">
 
@@ -35,8 +35,10 @@
 
         </h:dataTable>
         <br></br>
-        <h:commandButton value="Änderungen Speichern"
-                         action="#{eventBean.save}"/>
+        <h:form>
+            <h:commandButton value="Neue Veranstaltung anlegen"
+                             action="create-event?faces-redirect=true"/>
+        </h:form>
     </ui:define>
 </ui:composition>
 
