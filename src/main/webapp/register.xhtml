@@ -1,0 +1,67 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.core"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:p="http://primefaces.org/ui"
+        template="/templates/layout.xhtml">
+
+  <ui:define name="content">
+
+    <h2>Registrierung</h2>
+
+    <h:form id="registerForm">
+
+      <!-- Meldungen -->
+      <p:messages id="msgs" showDetail="true" closable="true"/>
+
+      <p:panel header="Benutzer anlegen">
+
+        <p:panelGrid columns="2" columnClasses="label,value">
+
+          <!-- Benutzername -->
+          <p:outputLabel for="username" value="Benutzername"/>
+          <p:inputText id="username"
+                       value="#{userRegistrationBean.registration.username}"
+                       required="true"/>
+
+          <!-- E-Mail -->
+          <p:outputLabel for="email" value="E-Mail"/>
+          <p:inputText id="email"
+                       value="#{userRegistrationBean.registration.email}"
+                       required="true"/>
+
+          <!-- Passwort -->
+          <p:outputLabel for="password" value="Passwort"/>
+          <p:password id="password"
+                      value="#{userRegistrationBean.registration.password}"
+                      feedback="true"
+                      required="true"/>
+
+          <!-- Rolle -->
+          <p:outputLabel for="role" value="Rolle"/>
+          <p:selectOneMenu id="role"
+                           value="#{userRegistrationBean.registration.role}"
+                           required="true">
+            <f:selectItem itemLabel="Bitte auswählen"
+                          itemValue="#{null}"/>
+            <f:selectItems value="#{userRegistrationBean.availableRoles}"/>
+          </p:selectOneMenu>
+
+        </p:panelGrid>
+
+        <br/>
+
+        <!-- Aktion -->
+        <p:commandButton value="Registrieren"
+                         action="#{userRegistrationBean.register}"
+                         update="registerForm msgs"
+                         icon="pi pi-user-plus"/>
+
+      </p:panel>
+
+    </h:form>
+
+  </ui:define>
+
+</ui:composition>
