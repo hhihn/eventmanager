@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/templates/layout.xhtml">
+
+  <ui:define name="content">
+
+    <h2>Registrierung</h2>
+
+    <!-- Meldungen (Erfolg / Fehler) -->
+    <h:messages globalOnly="true"
+                layout="list"
+                styleClass="messages"/>
+
+    <h:form id="registerForm">
+
+      <h:panelGrid columns="2">
+        <h:outputLabel for="username" value="Benutzername"/>
+        <h:inputText id="username"
+                     value="#{userRegistrationBean.userRegistrationDTO.username}"
+                     required="true"/>
+        <h:outputLabel for="name" value="Name"/>
+        <h:inputText id="name"
+                     value="#{userRegistrationBean.userRegistrationDTO.name}"
+                     required="true"/>
+        <h:outputLabel for="firstname" value="Vorname"/>
+        <h:inputText id="firstname"
+                     value="#{userRegistrationBean.userRegistrationDTO.firstname}"
+                     required="true"/>
+        <h:outputLabel for="location" value="Adresse"/>
+        <h:inputText id="location"
+                     value="#{userRegistrationBean.userRegistrationDTO.location}"
+                     required="true"/>
+        <h:outputLabel for="email" value="E-Mail"/>
+        <h:inputText id="email"
+                     value="#{userRegistrationBean.userRegistrationDTO.email}"
+                     required="true"/>
+        <h:outputLabel for="password" value="Passwort"/>
+        <h:inputSecret id="password"
+                       value="#{userRegistrationBean.userRegistrationDTO.password}"
+                       required="true">
+          <f:validateLength minimum="8"/>
+        </h:inputSecret>
+        <h:outputLabel for="role" value="Rolle"/>
+        <h:selectOneMenu id="role"
+                         value="#{userRegistrationBean.userRegistrationDTO.role}"
+                         required="true">
+          <f:selectItems value="#{userRegistrationBean.availableRoles}"/>
+        </h:selectOneMenu>
+
+      </h:panelGrid>
+
+      <br/>
+
+      <!-- Aktion -->
+      <h:commandButton value="Registrieren"
+                       action="#{userRegistrationBean.register}"/>
+
+    </h:form>
+
+  </ui:define>
+
+</ui:composition>
+
+</html>

@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Named
 @ViewScoped
@@ -25,6 +26,10 @@ public class UserRegistrationBean implements Serializable {
 
     private UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
 
+    public List<UserRole> getAvailableRoles() {
+        return List.of(UserRole.values());
+    }
+
     public void register() {
 
         // 1. überprüfe ob die email adresse schon registriert ist
@@ -39,6 +44,7 @@ public class UserRegistrationBean implements Serializable {
             return;
         }
 
+        userRegistrationDTO.setPassword(PWUtil.hashPassword(userRegistrationDTO.getPassword()));
         // übersetze DTO zur Entity
         User user = new User(userRegistrationDTO);
         // Speichere Entity in der Datenbank
