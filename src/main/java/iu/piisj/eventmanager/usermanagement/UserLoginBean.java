@@ -17,18 +17,18 @@ public class UserLoginBean implements Serializable {
     private String username;
     private String password;
 
-    private User loggedInUser;
+    private User loggedInUser = null;
 
     @Inject
     private UserRepository userRepository;
 
     public String login() {
-
+        System.out.println("LOGIN AUFGERUFEN: " + username);
         User user = userRepository.findByUsername(username);
 
         if (user == null ||
                 !PWUtil.verifyPassword(password, user.getPassword())) {
-
+            System.out.println("LOGIN FEHLGESCHLAGEN: " + username);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Login fehlgeschlagen",
@@ -36,7 +36,11 @@ public class UserLoginBean implements Serializable {
 
             return null; // bleibe auf Login-Seite
         }
-
+        System.out.println("USER GEFUNDEN " + username);
+        FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getSessionMap()
+                .put("user", user);
         loggedInUser = user;
         password = null; // Sicherheit
 
@@ -51,11 +55,8 @@ public class UserLoginBean implements Serializable {
     }
 
     public boolean isLoggedIn() {
+        System.out.println("LOGIN STATUS: " + (loggedInUser != null));
         return loggedInUser != null;
-    }
-
-    public boolean hasRole(String role) {
-        return isLoggedIn() && loggedInUser.getRole().equals(role);
     }
 
     public String getUsername() { return username; }

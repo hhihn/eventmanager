@@ -8,7 +8,10 @@
 
   <ui:define name="content">
     <h2>Login</h2>
-
+    <!-- Meldungen (Erfolg / Fehler) -->
+    <h:messages globalOnly="true"
+                layout="list"
+                styleClass="messages"/>
     <h:form id="loginForm">
       <h:panelGrid columns="2">
 
@@ -28,7 +31,9 @@
 
       <h:commandButton value="Login"
                        action="#{userLoginBean.login}"/>
-
+      <br/>
+      <h:link value="Noch kein Konto? Jetzt registrieren"
+              outcome="/register"/>
       <h:messages globalOnly="true"/>
     </h:form>
   </ui:define>

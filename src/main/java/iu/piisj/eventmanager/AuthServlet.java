@@ -5,13 +5,20 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
-import iu.piisj.eventmanager.usermanagement.UserLoginBean;
+import iu.piisj.eventmanager.usermanagement.User;
 
 @WebFilter("/*")
 public class AuthServlet implements Filter {
 
     private static final String LOGIN_PAGE = "/login.xhtml";
+
+    private static final List<String> PUBLIC_PAGES = List.of(
+            "/login.xhtml",
+            "/register.xhtml",
+            "/index.xhtml"
+    );
 
     @Override
     public void doFilter(ServletRequest request,
@@ -25,16 +32,17 @@ public class AuthServlet implements Filter {
         String path = req.getRequestURI();
         String context = req.getContextPath();
 
-        // LoginBean aus Session holen
-        UserLoginBean loginBean = (UserLoginBean)
-                req.getSession().getAttribute("loginBean");
+        User user = (User) req.getSession().getAttribute("user");
 
-        boolean loggedIn = loginBean != null && loginBean.isLoggedIn();
+        boolean loggedIn = user != null;
 
-        boolean isLoginPage = path.endsWith("login.xhtml");
-        boolean isResource  = path.startsWith(context + "/jakarta.faces.resource");
+        boolean isPublicPage = PUBLIC_PAGES.stream()
+                .anyMatch(path::endsWith);
 
-        if (loggedIn || isLoginPage || isResource) {
+        boolean isResource =
+                path.startsWith(context + "/jakarta.faces.resource");
+
+        if (loggedIn || isPublicPage || isResource) {
             chain.doFilter(request, response);
         } else {
             res.sendRedirect(context + LOGIN_PAGE);
