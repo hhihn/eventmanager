@@ -15,22 +15,31 @@
 
       <h:panelGrid columns="2">
         <h:outputLabel for="name" value="Name"/>
-        <h:inputText id="name" value="#{eventBean.newEventDTO.name}" required="true"/>
+        <h:inputText id="name"
+                     value="#{eventBean.newEventDTO.name}"
+                     required="true"/>
 
         <h:outputLabel for="location" value="Ort"/>
-        <h:inputText id="location" value="#{eventBean.newEventDTO.location}" required="true"/>
+        <h:inputText id="location"
+                     value="#{eventBean.newEventDTO.location}"
+                     required="true"/>
 
         <h:outputLabel for="date" value="Datum"/>
-        <h:inputText id="date" value="#{eventBean.newEventDTO.date}" required="true"/>
+        <h:inputText id="date"
+                     value="#{eventBean.newEventDTO.date}"
+                     required="true"/>
 
         <h:outputLabel for="state" value="Status"/>
-        <h:selectOneMenu id="state" value="#{eventBean.newEventDTO.state}" required="true">
+        <h:selectOneMenu id="state"
+                         value="#{eventBean.newEventDTO.state}"
+                         required="true">
           <f:selectItems value="#{eventBean.availableStatuses}"/>
         </h:selectOneMenu>
       </h:panelGrid>
       <br/>
 
-      <h:commandButton value="Speichern" action="#{eventBean.saveEvent}"/>
+      <h:commandButton value="Speichern"
+                       action="#{eventBean.saveEvent}"/>
 
     </h:form>
   </ui:define>

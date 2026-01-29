@@ -1,67 +1,59 @@
-<ui:composition
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:h="jakarta.faces.html"
-        xmlns:f="jakarta.faces.core"
-        xmlns:ui="jakarta.faces.facelets"
-        xmlns:p="http://primefaces.org/ui"
-        template="/templates/layout.xhtml">
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/templates/layout.xhtml">
 
   <ui:define name="content">
 
     <h2>Registrierung</h2>
 
+
     <h:form id="registerForm">
 
-      <!-- Meldungen -->
-      <p:messages id="msgs" showDetail="true" closable="true"/>
-
-      <p:panel header="Benutzer anlegen">
-
-        <p:panelGrid columns="2" columnClasses="label,value">
-
-          <!-- Benutzername -->
-          <p:outputLabel for="username" value="Benutzername"/>
-          <p:inputText id="username"
-                       value="#{userRegistrationBean.registration.username}"
+      <h:panelGrid columns="2">
+        <h:outputLabel for="username" value="Benutzername"/>
+        <h:inputText id="username"
+                     value="#{userRegistrationBean.userRegistrationDTO.username}"
+                     required="true"/>
+        <h:outputLabel for="name" value="Name"/>
+        <h:inputText id="name"
+                     value="#{userRegistrationBean.userRegistrationDTO.name}"
+                     required="true"/>
+        <h:outputLabel for="firstname" value="Vorname"/>
+        <h:inputText id="firstname"
+                     value="#{userRegistrationBean.userRegistrationDTO.firstname}"
+                     required="true"/>
+        <h:outputLabel for="email" value="E-Mail"/>
+        <h:inputText id="email"
+                     value="#{userRegistrationBean.userRegistrationDTO.email}"
+                     required="true"/>
+        <h:outputLabel for="password" value="Passwort"/>
+        <h:inputSecret id="password"
+                       value="#{userRegistrationBean.userRegistrationDTO.password}"
                        required="true"/>
+        <h:outputLabel for="role" value="Rolle"/>
+        <h:selectOneMenu id="role"
+                         value="#{userRegistrationBean.userRegistrationDTO.role}"
+                         required="true">
+          <f:selectItems value="#{userRegistrationBean.availableRoles}"/>
+        </h:selectOneMenu>
 
-          <!-- E-Mail -->
-          <p:outputLabel for="email" value="E-Mail"/>
-          <p:inputText id="email"
-                       value="#{userRegistrationBean.registration.email}"
-                       required="true"/>
+      </h:panelGrid>
 
-          <!-- Passwort -->
-          <p:outputLabel for="password" value="Passwort"/>
-          <p:password id="password"
-                      value="#{userRegistrationBean.registration.password}"
-                      feedback="true"
-                      required="true"/>
+      <br/>
 
-          <!-- Rolle -->
-          <p:outputLabel for="role" value="Rolle"/>
-          <p:selectOneMenu id="role"
-                           value="#{userRegistrationBean.registration.role}"
-                           required="true">
-            <f:selectItem itemLabel="Bitte auswählen"
-                          itemValue="#{null}"/>
-            <f:selectItems value="#{userRegistrationBean.availableRoles}"/>
-          </p:selectOneMenu>
-
-        </p:panelGrid>
-
-        <br/>
-
-        <!-- Aktion -->
-        <p:commandButton value="Registrieren"
-                         action="#{userRegistrationBean.register}"
-                         update="registerForm msgs"
-                         icon="pi pi-user-plus"/>
-
-      </p:panel>
+      <!-- Aktion -->
+      <h:commandButton value="Registrieren"
+                       action="#{userRegistrationBean.register}"/>
 
     </h:form>
 
   </ui:define>
 
 </ui:composition>
+
+</html>

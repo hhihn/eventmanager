@@ -1,8 +1,6 @@
 package iu.piisj.eventmanager.usermanagement;
 
 import iu.piisj.eventmanager.dto.UserRegistrationDTO;
-import iu.piisj.eventmanager.usermanagement.User;
-import iu.piisj.eventmanager.usermanagement.UserRole;
 import iu.piisj.eventmanager.repository.UserRepository;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -21,19 +19,15 @@ public class UserRegistrationBean implements Serializable {
     @Inject
     private UserRepository userRepository;
 
-    private UserRegistrationDTO registration = new UserRegistrationDTO();
-
-    public UserRegistrationDTO getRegistration() {
-        return registration;
-    }
+    private UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
 
     public List<UserRole> getAvailableRoles() {
-        return Arrays.asList(UserRole.values());
+        return List.of(UserRole.values());
     }
 
     public void register() {
 
-        if (userRepository.emailExists(registration.getEmail())) {
+        if (userRepository.emailExists(userRegistrationDTO.getEmail())) {
             FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(
@@ -46,10 +40,13 @@ public class UserRegistrationBean implements Serializable {
         }
 
         User user = new User(
-                registration.getUsername(),
-                registration.getEmail(),
-                registration.getPassword(), // später: Hashing!
-                registration.getRole()
+                userRegistrationDTO.getUsername(),
+                userRegistrationDTO.getName(),
+                userRegistrationDTO.getFirstname(),
+                userRegistrationDTO.getEmail(),
+                userRegistrationDTO.getState(),
+                userRegistrationDTO.getPassword(), // später: Hashing!
+                userRegistrationDTO.getRole()
         );
 
         userRepository.save(user);
@@ -63,6 +60,14 @@ public class UserRegistrationBean implements Serializable {
                 )
         );
 
-        registration = new UserRegistrationDTO();
+        userRegistrationDTO = new UserRegistrationDTO();
+    }
+
+    public UserRegistrationDTO getUserRegistrationDTO() {
+        return userRegistrationDTO;
+    }
+
+    public void setUserRegistrationDTO(UserRegistrationDTO userRegistrationDTO) {
+        this.userRegistrationDTO = userRegistrationDTO;
     }
 }
