@@ -3,6 +3,7 @@ package iu.piisj.eventmanager.repository;
 import iu.piisj.eventmanager.usermanagement.User;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 
 @ApplicationScoped
@@ -25,5 +26,17 @@ public class UserRepository {
                 ).setParameter("email", email)
                 .getSingleResult();
         return count > 0;
+    }
+
+    public User findByUsername(String username) {
+        try {
+            return em.createQuery(
+                            "SELECT u FROM User u WHERE u.username = :username",
+                            User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }
