@@ -38,14 +38,15 @@ public class UserRegistrationBean implements Serializable {
             );
             return;
         }
-
+        String hashedPassword =
+                PWUtil.hashPassword(userRegistrationDTO.getPassword());
         User user = new User(
                 userRegistrationDTO.getUsername(),
                 userRegistrationDTO.getName(),
                 userRegistrationDTO.getFirstname(),
                 userRegistrationDTO.getEmail(),
                 userRegistrationDTO.getState(),
-                userRegistrationDTO.getPassword(), // später: Hashing!
+                hashedPassword,
                 userRegistrationDTO.getRole()
         );
 

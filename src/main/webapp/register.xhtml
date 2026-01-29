@@ -11,6 +11,10 @@
 
     <h2>Registrierung</h2>
 
+    <!-- Meldungen (Erfolg / Fehler) -->
+    <h:messages globalOnly="true"
+                layout="list"
+                styleClass="messages"/>
 
     <h:form id="registerForm">
 
@@ -34,7 +38,9 @@
         <h:outputLabel for="password" value="Passwort"/>
         <h:inputSecret id="password"
                        value="#{userRegistrationBean.userRegistrationDTO.password}"
-                       required="true"/>
+                       required="true">
+          <f:validateLength minimum="8"/>
+        </h:inputSecret>
         <h:outputLabel for="role" value="Rolle"/>
         <h:selectOneMenu id="role"
                          value="#{userRegistrationBean.userRegistrationDTO.role}"
