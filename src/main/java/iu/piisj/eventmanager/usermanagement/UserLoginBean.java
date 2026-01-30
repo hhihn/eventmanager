@@ -1,8 +1,6 @@
 package iu.piisj.eventmanager.usermanagement;
 
 import iu.piisj.eventmanager.repository.UserRepository;
-import iu.piisj.eventmanager.usermanagement.PWUtil;
-import iu.piisj.eventmanager.usermanagement.User;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
