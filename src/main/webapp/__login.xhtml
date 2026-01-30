@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/templates/layout.xhtml">
+
+  <ui:define name="content">
+    <h2>Login</h2>
+    <!-- Meldungen (Erfolg / Fehler) -->
+    <h:messages globalOnly="true"
+                layout="list"
+                styleClass="messages"/>
+    <h:form id="loginForm">
+      <h:panelGrid columns="2">
+
+        <!-- Hier die benötigten Felder zum Login einbauen -->
+        <!-- und mit dem DTO verbinden -->
+
+      </h:panelGrid>
+
+      <br/>
+      <!-- Hier den Button zum Login einbauen -->
+      <br/>
+      <!-- Hier den Link zur Registrierung einbauen -->
+      <h:messages globalOnly="true"/>
+    </h:form>
+  </ui:define>
+
+</ui:composition>
+</html>
