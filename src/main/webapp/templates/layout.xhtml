@@ -22,7 +22,14 @@
       <h:link value="Teilnehmende" outcome="participants"/>
     </nav>
     <br/>
-    <h:link value="Jetzt registrieren" outcome="register"/>
+    <h:panelGroup rendered="#{userLoginBean.loggedIn}">
+      Willkommen #{userLoginBean.loggedInUser.username}
+      |
+      <h:form style="display:inline">
+        <h:commandLink value="Logout"
+                       action="#{userLoginBean.logout}"/>
+      </h:form>
+    </h:panelGroup>
   </header>
 
   <main>
