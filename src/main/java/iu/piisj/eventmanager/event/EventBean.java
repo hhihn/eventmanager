@@ -39,7 +39,7 @@ public class EventBean {
             context.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Zugriff verweigert",
-                            "Nur Organsitoren dürfen Events anlegen."));
+                            "Nur Organisatoren dürfen Events anlegen."));
             return;
         }
 
