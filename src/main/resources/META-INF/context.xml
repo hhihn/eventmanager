@@ -1,0 +1,13 @@
+<Context>
+    <Resource name="jdbc/eventdb"
+              auth="Container"
+              type="javax.sql.DataSource"
+              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+              driverClassName="org.h2.Driver"
+              url="jdbc:h2:file:/Users/heinke.hihn/IdeaProjects/eventmanager/data/eventdb;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE"
+              username="sa"
+              password=""
+              maxTotal="20"
+              maxIdle="10"
+              maxWaitMillis="-1"/>
+</Context>

@@ -21,6 +21,7 @@ public class EventBean {
     private EventRepository eventRepository;
     private EventDTO newEventDTO = new EventDTO();
 
+    @RolesAllowed("ORGANISATOR")
     public void saveEvent(){
 
         FacesContext context = FacesContext.getCurrentInstance();

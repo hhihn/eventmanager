@@ -1,0 +1,5 @@
+1. security dependecy hinzufügen zur pom
+2. rolesallowed annotationen hinzufügen
+3. identity store anlegen (neue class)
+4. loginbean anpassen über jakarta security. logout implementieren
+5. securityconfig anlegen
