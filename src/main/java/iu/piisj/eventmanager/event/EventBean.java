@@ -29,6 +29,18 @@ public class EventBean {
     public void saveEvent(){
 
         Event newEvent = this.mapDTOToEntity(this.newEventDTO);
+
+        User u = (User) FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getSessionMap()
+                .get("user");
+
+        newEvent.setOrganizer(u);
+
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Event angelegt",
+                        "Es wurde ein neues Event angelegt"));
+
         this.eventRepository.save(newEvent);
 
     }

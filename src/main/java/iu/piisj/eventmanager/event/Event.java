@@ -1,6 +1,7 @@
 package iu.piisj.eventmanager.event;
 
 import iu.piisj.eventmanager.participant.Participant;
+import iu.piisj.eventmanager.usermanagement.User;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -24,6 +25,10 @@ public class Event {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Participant> participants = new ArrayList<>();
+
+    @ManyToOne()
+    @JoinColumn(name = "organizer_user_id")
+    private User organizer;
 
     private String name;
     private String location;
@@ -73,4 +78,12 @@ public class Event {
     }
 
     public List<Participant> getParticipants() { return this.participants; }
+
+    public User getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(User organizer) {
+        this.organizer = organizer;
+    }
 }
