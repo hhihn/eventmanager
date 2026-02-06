@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <!-- eventId aus URL lesen -->
+    <f:metadata>
+      <f:viewParam name="eventId" value="#{sessionBean.eventId}" />
+      <f:viewAction action="#{sessionBean.loadEvent}" />
+    </f:metadata>
+
+    <h1>Session anlegen</h1>
+
+    <!-- Falls kein Event gefunden -->
+    <h:panelGroup rendered="#{empty sessionBean.selectedEvent}">
+      <p>Kein Event ausgewählt oder Event nicht gefunden.</p>
+      <h:link value="Zurück zur Event-Liste" outcome="/events.xhtml"/>
+    </h:panelGroup>
+
+    <!-- Formular nur wenn Event existiert -->
+    <h:panelGroup rendered="#{not empty sessionBean.selectedEvent}">
+
+      <h:panelGrid columns="2" styleClass="event-detail-grid">
+        <h:outputText value="Event:"/>
+        <h:outputText value="#{sessionBean.selectedEvent.name}"/>
+
+        <h:outputText value="Ort:"/>
+        <h:outputText value="#{sessionBean.selectedEvent.location}"/>
+
+        <h:outputText value="Datum:"/>
+        <h:outputText value="#{sessionBean.selectedEvent.date}"/>
+      </h:panelGrid>
+
+      <br/>
+
+      <!-- Messages -->
+      <h:messages globalOnly="true" styleClass="messages"/>
+
+      <h:form>
+        <h:panelGrid columns="2" styleClass="form-grid">
+
+          <h:outputLabel for="title" value="Titel *"/>
+          <h:inputText id="title"
+                       value="#{sessionBean.newSession.title}"
+                       required="true"
+                       requiredMessage="Bitte einen Titel angeben."/>
+
+          <h:outputLabel for="speaker" value="Speaker"/>
+          <h:inputText id="speaker"
+                       value="#{sessionBean.newSession.speaker}"/>
+
+          <h:outputLabel for="room" value="Raum"/>
+          <h:inputText id="room"
+                       value="#{sessionBean.newSession.room}"/>
+
+          <h:outputLabel for="startTime" value="Start (optional)"/>
+          <h:inputText id="startTime"
+                       value="#{sessionBean.newSession.startTime}">
+            <!-- Optional: Converter, falls startTime bei euch String ist nicht nötig -->
+          </h:inputText>
+
+          <h:outputLabel for="endTime" value="Ende (optional)"/>
+          <h:inputText id="endTime"
+                       value="#{sessionBean.newSession.endTime}">
+          </h:inputText>
+
+          <h:outputLabel value="Organisator"/>
+          <h:outputText value="#{userLoginBean.loggedInUser.firstname} #{userLoginBean.loggedInUser.name} (#{userLoginBean.loggedInUser.username})"/>
+
+        </h:panelGrid>
+
+        <br/>
+
+        <h:commandButton value="Session speichern"
+                         action="#{sessionBean.addSession}">
+          <!-- eventId im Request behalten -->
+          <f:param name="eventId" value="#{sessionBean.eventId}"/>
+        </h:commandButton>
+
+        <h:commandButton value="Abbrechen"
+                         immediate="true"
+                         action="/event.xhtml?faces-redirect=true">
+          <f:param name="eventId" value="#{sessionBean.eventId}"/>
+        </h:commandButton>
+      </h:form>
+
+    </h:panelGroup>
+
+  </ui:define>
+</ui:composition>
+</html>

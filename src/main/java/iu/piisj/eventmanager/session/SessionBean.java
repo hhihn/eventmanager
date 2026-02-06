@@ -1,49 +1,77 @@
 package iu.piisj.eventmanager.session;
 
+import iu.piisj.eventmanager.accessmanagement.OrganizerOnly;
 import iu.piisj.eventmanager.event.Event;
 import iu.piisj.eventmanager.repository.EventRepository;
+import iu.piisj.eventmanager.usermanagement.User;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serializable;
 
 @Named
-@ViewScoped
+@RequestScoped
 public class SessionBean implements Serializable {
 
     @Inject
     private EventRepository eventRepository;
 
-    private Long eventId;        // wird aus Request-Param gesetzt (z.B. ?eventId=1)
+    private Long eventId;
+    private Event selectedEvent;           // neu
     private Session newSession = new Session();
 
-    public Event findEventById() {
-        if (eventId == null) return null;
-        return eventRepository.findById(eventId);
+    // neu: einmal laden statt mehrfach findById in EL
+    public void loadEvent() {
+        if (eventId == null) {
+            selectedEvent = null;
+            return;
+        }
+        selectedEvent = eventRepository.findById(eventId);
     }
 
+    public Event getSelectedEvent() {
+        return selectedEvent;
+    }
+
+    @OrganizerOnly
     public void addSession() {
-        Event e = findEventById();
+        Event e = selectedEvent != null ? selectedEvent : eventRepository.findById(eventId);
+
+        User u = (User) FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getSessionMap()
+                .get("user");
+
+        if (u == null) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nicht eingeloggt", "Bitte erneut einloggen."));
+            return;
+        }
+
         if (e == null) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Event fehlt", "Kein Event ausgewählt."));
             return;
         }
+
         if (newSession.getTitle() == null || newSession.getTitle().isBlank()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Titel fehlt", "Bitte Session-Titel angeben."));
             return;
         }
 
+        newSession.setOrganizer(u);
         e.addSession(newSession);
         eventRepository.update(e);
 
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Gespeichert", "Session wurde hinzugefügt."));
+
         newSession = new Session();
+        loadEvent(); // optional: neu laden, damit Session-Liste aktualisiert ist
     }
 
     public Long getEventId() { return eventId; }

@@ -10,6 +10,12 @@
         <h:dataTable value="#{eventBean.getAllEvents()}"
                      var="event"
                      styleClass="event-table">
+            <h:column>
+                <f:facet name="header">Details</f:facet>
+                <h:link value="Öffnen" outcome="/event-details.xhtml">
+                    <f:param name="eventId" value="#{event.id}" />
+                </h:link>
+            </h:column>
 
             <h:column>
                 <f:facet name="header">Event</f:facet>

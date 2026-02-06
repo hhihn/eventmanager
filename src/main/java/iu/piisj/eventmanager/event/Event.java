@@ -1,6 +1,7 @@
 package iu.piisj.eventmanager.event;
 
 import iu.piisj.eventmanager.participant.Participant;
+import iu.piisj.eventmanager.session.Session;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -14,16 +15,12 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Participant> participants = new ArrayList<>();
+
+    // NEU: Sessions
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Session> sessions = new ArrayList<>();
 
     private String name;
     private String location;
@@ -39,38 +36,30 @@ public class Event {
         this.state = state;
     }
 
-    // Getter & Setter
-    public Long getId() {
-        return id;
+    // NEU: convenience method (Session korrekt verknüpfen)
+    public void addSession(Session s) {
+        s.setEvent(this);
+        sessions.add(s);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public List<Session> getSessions() {
+        return sessions;
     }
 
-    public String getLocation() {
-        return location;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getDate() {
-        return date;
-    }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
+    public String getDate() { return date; }
+    public void setDate(String date) { this.date = date; }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
+    public String getState() { return state; }
+    public void setState(String state) { this.state = state; }
 
     public List<Participant> getParticipants() { return this.participants; }
 }
