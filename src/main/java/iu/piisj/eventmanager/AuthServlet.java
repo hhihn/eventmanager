@@ -56,6 +56,7 @@ public class AuthServlet implements Filter {
         if (user == null){
             // wenn user nicht eingeloggt ist, dann schicke ihn zur login seite
             resp.sendRedirect(context + LOGIN_PAGE);
+            return;
         }
 
         // Besonderen Schutz für die Orga Seiten

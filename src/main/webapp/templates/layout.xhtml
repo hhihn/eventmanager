@@ -15,13 +15,13 @@
             value = "https://www.iu.de/logos/iu-logo.svg" width="150px"/>
     <h1>Event Management System</h1>
     <nav>
-      <h:link value="Start" outcome="index"/>
+      <h:link value="Start" outcome="/index"/>
       <h:panelGroup rendered="#{userLoginBean.loggedIn}">
         |
-        <h:link value="Veranstaltungen" outcome="events"/>
+        <h:link value="Veranstaltungen" outcome="/events"/>
         <h:panelGroup rendered="#{userLoginBean.loggedInUser.orgaOrAdmin}">
           |
-          <h:link value="Teilnehmende" outcome="participants"/>
+          <h:link value="Teilnehmende" outcome="/orga/participants"/>
         </h:panelGroup>
       </h:panelGroup>
     </nav>

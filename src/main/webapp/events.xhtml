@@ -35,10 +35,12 @@
 
         </h:dataTable>
         <br></br>
-        <h:form>
-            <h:commandButton value="Neue Veranstaltung anlegen"
-                             action="create-event?faces-redirect=true"/>
-        </h:form>
+        <h:panelGroup rendered="#{userLoginBean.loggedInUser.orgaOrAdmin}">
+            <h:form>
+                <h:commandButton value="Neue Veranstaltung anlegen"
+                                 action="/orga/create-event?faces-redirect=true"/>
+            </h:form>
+        </h:panelGroup>
     </ui:define>
 </ui:composition>
 
