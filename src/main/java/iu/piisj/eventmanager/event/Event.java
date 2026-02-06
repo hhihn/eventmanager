@@ -30,9 +30,6 @@ public class Event {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Session> sessions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private List<User> participants = new ArrayList<>();
-
     private String name;
     private String location;
     private String date;
@@ -96,11 +93,4 @@ public class Event {
         this.sessions = sessions;
     }
 
-    public List<User> getParticipants() {
-        return participants;
-    }
-
-    public void setParticipants(List<User> participants) {
-        this.participants = participants;
-    }
 }
