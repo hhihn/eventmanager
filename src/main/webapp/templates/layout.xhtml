@@ -25,6 +25,8 @@
     <h:panelGroup rendered="#{userLoginBean.loggedIn}">
       Willkommen #{userLoginBean.loggedInUser.username}
       |
+      Du bist in der Rolle #{userLoginBean.loggedInUser.role}
+      |
       <h:form style="display:inline">
         <h:commandLink value="Logout"
                        action="#{userLoginBean.logout}"/>
