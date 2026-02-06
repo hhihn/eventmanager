@@ -1,6 +1,5 @@
 package iu.piisj.eventmanager.event;
 
-import iu.piisj.eventmanager.participant.Participant;
 import iu.piisj.eventmanager.session.Session;
 import iu.piisj.eventmanager.usermanagement.User;
 import jakarta.persistence.*;
@@ -24,15 +23,15 @@ public class Event {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private List<Participant> participants = new ArrayList<>();
-
     @ManyToOne()
     @JoinColumn(name = "organizer_user_id")
     private User organizer;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Session> sessions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<User> participants = new ArrayList<>();
 
     private String name;
     private String location;
@@ -81,8 +80,6 @@ public class Event {
         this.state = state;
     }
 
-    public List<Participant> getParticipants() { return this.participants; }
-
     public User getOrganizer() {
         return organizer;
     }
@@ -97,5 +94,13 @@ public class Event {
 
     public void setSessions(List<Session> sessions) {
         this.sessions = sessions;
+    }
+
+    public List<User> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<User> participants) {
+        this.participants = participants;
     }
 }
