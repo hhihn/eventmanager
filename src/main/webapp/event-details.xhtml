@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/templates/layout.xhtml">
+    <ui:define name="content">
+
+        <!-- /event.xhtml?eventId=123 -->
+        <f:metadata>
+            <f:viewParam name="eventId" value="#{eventDetailBean.eventId}" />
+            <f:viewAction action="#{eventDetailBean.loadEvent}" />
+        </f:metadata>
+
+        <h:panelGroup rendered="#{empty eventDetailBean.selectedEvent}">
+            <h1>Event nicht gefunden</h1>
+            <h:link value="Zurück zur Event-Liste" outcome="/events.xhtml"/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{not empty eventDetailBean.selectedEvent}">
+            <h1>#{eventDetailBean.selectedEvent.name}</h1>
+
+            <h:panelGrid columns="2" styleClass="event-detail-grid">
+                <h:outputText value="Ort:"/>
+                <h:outputText value="#{eventDetailBean.selectedEvent.location}"/>
+
+                <h:outputText value="Datum:"/>
+                <h:outputText value="#{eventDetailBean.selectedEvent.date}"/>
+
+                <h:outputText value="Status:"/>
+                <h:outputText value="#{eventDetailBean.selectedEvent.state}"/>
+
+                <h:outputText value="Organisator(en):"/>
+                <h:outputText value="#{eventDetailBean.organizerNames}"/>
+            </h:panelGrid>
+
+            <br/>
+
+            <h2>Sessions</h2>
+
+            <h:panelGroup rendered="#{empty eventDetailBean.selectedEvent.sessions}">
+                <p>Noch keine Sessions erfasst.</p>
+            </h:panelGroup>
+
+            <h:dataTable value="#{eventDetailBean.selectedEvent.sessions}"
+                         var="s"
+                         rendered="#{not empty eventDetailBean.selectedEvent.sessions}"
+                         styleClass="event-table">
+
+                <h:column>
+                    <f:facet name="header">Titel</f:facet>
+                    #{s.title}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Speaker</f:facet>
+                    #{s.speaker}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Raum</f:facet>
+                    #{s.room}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Start</f:facet>
+                    #{s.startTime}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Ende</f:facet>
+                    #{s.endTime}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Organisator</f:facet>
+                    #{s.organizer.firstname} #{s.organizer.name} (#{s.organizer.username})
+                </h:column>
+            </h:dataTable>
+
+            <br/>
+
+            <h2>Teilnehmende</h2>
+
+            <h:panelGroup rendered="#{empty eventDetailBean.selectedEvent.participants}">
+                <p>Noch keine Teilnehmenden registriert.</p>
+            </h:panelGroup>
+
+            <h:dataTable value="#{eventDetailBean.selectedEvent.participants}"
+                         var="p"
+                         rendered="#{not empty eventDetailBean.selectedEvent.participants}"
+                         styleClass="event-table">
+
+                <h:column>
+                    <f:facet name="header">Vorname</f:facet>
+                    #{p.firstname}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Nachname</f:facet>
+                    #{p.name}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">E-Mail</f:facet>
+                    #{p.email}
+                </h:column>
+            </h:dataTable>
+
+            <br/>
+            <h:panelGroup rendered="#{userLoginBean.loggedInUser.orgaOrAdmin}">
+                <h:link value="Session anlegen" outcome="/orga/create-session.xhtml">
+                    <f:param name="eventId" value="#{eventDetailBean.selectedEvent.id}" />
+                </h:link>
+            </h:panelGroup>
+            <h:link value="Zurück zur Event-Liste" outcome="/events.xhtml"/>
+        </h:panelGroup>
+
+    </ui:define>
+</ui:composition>
+</html>
