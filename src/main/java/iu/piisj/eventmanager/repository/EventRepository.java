@@ -18,6 +18,17 @@ public class EventRepository{
         return this.em.createQuery("SELECT e FROM Event e", Event.class).getResultList();
     }
 
+    public Event findById(Long id) {
+        return em.find(Event.class, id);
+    }
+
+    public Event update(Event event) {
+        em.getTransaction().begin();
+        Event merged = em.merge(event);
+        em.getTransaction().commit();
+        return merged;
+    }
+
     public void save(Event event){
         this.em.getTransaction().begin();
         this.em.persist(event);

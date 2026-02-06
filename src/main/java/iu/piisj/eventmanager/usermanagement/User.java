@@ -1,7 +1,11 @@
 package iu.piisj.eventmanager.usermanagement;
 
 import iu.piisj.eventmanager.dto.UserRegistrationDTO;
+import iu.piisj.eventmanager.session.Session;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,6 +25,10 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @OneToMany(mappedBy = "organizer")
+    private List<Session> organizedSessions = new ArrayList<>();
+
 
     public User() {}
 
@@ -110,4 +118,9 @@ public class User {
     public void setRole(UserRole role) {
         this.role = role;
     }
+
+    public List<Session> getOrganizedSessions() {
+        return organizedSessions;
+    }
+
 }
