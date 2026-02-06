@@ -28,8 +28,7 @@ public class OrganizerOnlyInterceptor {
             throw new SecurityException("Not logged in.");
         }
 
-        boolean isOrganizer = user.getRole().equals(UserRole.ORGANISATOR) || user.getRole().equals(UserRole.ADMIN);
-        if (!isOrganizer) {
+        if (!user.isOrgaOrAdmin()) {
             throw new SecurityException("Organizer role required.");
         }
 
