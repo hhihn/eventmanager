@@ -52,6 +52,13 @@ public class AuthServlet implements Filter {
             return;
         }
 
+        // ist der user eingeloggt?
+        if (user == null){
+            // wenn user nicht eingeloggt ist, dann schicke ihn zur login seite
+            resp.sendRedirect(context + LOGIN_PAGE);
+        }
+
+
         // Besonderen Schutz für die Orga Seiten
         boolean isOrgaPage = path.startsWith("/orga/");
         if (isOrgaPage && !user.isOrgaOrAdmin()){
