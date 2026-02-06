@@ -32,27 +32,34 @@ public class AuthServlet implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
 
         // welchen Pfad fragt die Request an?
-        String path = req.getRequestURI();
-        String context = req.getContextPath();
-
+        String uri = req.getRequestURI(); // z.B. /eventmanager/orga/create-event.xhtml
+        String context = req.getContextPath(); // z.B. /eventmanager
+        String path = uri.substring(context.length()); // z.B. /orga/create-event.xhtml
         // wer fragt den pfad an?
         User user = (User) req.getSession().getAttribute("user");
 
-        // ist der user eingeloggt?
-        boolean loggedIn = user != null;
-
-        // ist der Pfad teil der öffentlichen Seiten?
-        boolean isPublicPage = PUBLIC_PAGES.stream().anyMatch(path::endsWith);
-
-        // fragt der user eine JSF resource an?
-        boolean isResource = path.startsWith(context + "/jakarta.faces.resource");
-
-        // ist der user eingeloggt, oder fragt er eine resource an oder fragt er eine öffentliche Page an?
-        if (loggedIn || isResource || isPublicPage){
+       // JSF Resources erlauben
+        boolean isResource = path.startsWith("/jakarta.faces.resource/");
+        if (isResource) {
             chain.doFilter(request, response);
-        } else {
-            resp.sendRedirect(context + LOGIN_PAGE);
+            return;
         }
+
+        // Public Pages darf jeder sehen
+        boolean isPublicPage = PUBLIC_PAGES.contains(path);
+        if (isPublicPage) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        // Besonderen Schutz für die Orga Seiten
+        boolean isOrgaPage = path.startsWith("/orga/");
+        if (isOrgaPage && !user.isOrgaOrAdmin()){
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
+        chain.doFilter(request, response);
 
     }
 

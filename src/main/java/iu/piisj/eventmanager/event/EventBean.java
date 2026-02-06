@@ -1,5 +1,6 @@
 package iu.piisj.eventmanager.event;
 
+import iu.piisj.eventmanager.accessmanagement.OrganizerOnly;
 import iu.piisj.eventmanager.dto.EventDTO;
 import iu.piisj.eventmanager.repository.EventRepository;
 import iu.piisj.eventmanager.usermanagement.User;
@@ -21,30 +22,15 @@ public class EventBean {
     private EventRepository eventRepository;
     private EventDTO newEventDTO = new EventDTO();
 
+    // diese annotation sorgt dafür dass nur eingeloggte user mit den rollen
+    // ORGANISATOR oder ADMIN diese Methode aufrufen können
+    // sonst kommt es zu einem 403 Fehler
+    @OrganizerOnly
     public void saveEvent(){
-
-        FacesContext context = FacesContext.getCurrentInstance();
-
-        User user = (User) context.getExternalContext().getSessionMap().get("user");
-
-        if (user == null){
-            context.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "User ist nicht eingeloggt",
-                    "Bitte melden Sie sich an."));
-            return;
-        }
-
-        if (!user.getRole().equals(UserRole.ORGANISATOR)) {
-            context.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Zugriff verweigert",
-                            "Nur Organisatoren dürfen Events anlegen."));
-            return;
-        }
 
         Event newEvent = this.mapDTOToEntity(this.newEventDTO);
         this.eventRepository.save(newEvent);
+
     }
 
     private Event mapDTOToEntity(EventDTO dto){

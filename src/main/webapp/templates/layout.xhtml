@@ -16,14 +16,20 @@
     <h1>Event Management System</h1>
     <nav>
       <h:link value="Start" outcome="index"/>
-      |
-      <h:link value="Veranstaltungen" outcome="events"/>
-      |
-      <h:link value="Teilnehmende" outcome="participants"/>
+      <h:panelGroup rendered="#{userLoginBean.loggedIn}">
+        |
+        <h:link value="Veranstaltungen" outcome="events"/>
+        <h:panelGroup rendered="#{userLoginBean.loggedInUser.orgaOrAdmin}">
+          |
+          <h:link value="Teilnehmende" outcome="participants"/>
+        </h:panelGroup>
+      </h:panelGroup>
     </nav>
     <br/>
     <h:panelGroup rendered="#{userLoginBean.loggedIn}">
       Willkommen #{userLoginBean.loggedInUser.username}
+      |
+      Du bist in der Rolle #{userLoginBean.loggedInUser.role}
       |
       <h:form style="display:inline">
         <h:commandLink value="Logout"
