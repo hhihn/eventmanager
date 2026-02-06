@@ -58,7 +58,6 @@ public class AuthServlet implements Filter {
             resp.sendRedirect(context + LOGIN_PAGE);
         }
 
-
         // Besonderen Schutz für die Orga Seiten
         boolean isOrgaPage = path.startsWith("/orga/");
         if (isOrgaPage && !user.isOrgaOrAdmin()){
