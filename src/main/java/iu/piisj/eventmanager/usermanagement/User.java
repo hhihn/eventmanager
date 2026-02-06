@@ -2,6 +2,7 @@ package iu.piisj.eventmanager.usermanagement;
 
 import iu.piisj.eventmanager.dto.UserRegistrationDTO;
 import iu.piisj.eventmanager.event.Event;
+import iu.piisj.eventmanager.session.Session;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -28,6 +29,9 @@ public class User {
 
     @OneToMany(mappedBy = "organizer")
     private List<Event> organizedEvents = new ArrayList<>();
+
+    @OneToMany(mappedBy = "organizer")
+    private List<Session> organizedSessions = new ArrayList<>();
 
     public User() {}
 
@@ -128,5 +132,13 @@ public class User {
 
     public void setOrganizedEvents(List<Event> organizedEvents) {
         this.organizedEvents = organizedEvents;
+    }
+
+    public List<Session> getOrganizedSessions() {
+        return organizedSessions;
+    }
+
+    public void setOrganizedSessions(List<Session> organizedSessions) {
+        this.organizedSessions = organizedSessions;
     }
 }
