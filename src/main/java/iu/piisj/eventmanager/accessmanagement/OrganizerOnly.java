@@ -1,4 +1,4 @@
-package iu.piisj.eventmanager.usermanagement;
+package iu.piisj.eventmanager.accessmanagement;
 
 import jakarta.interceptor.InterceptorBinding;
 import java.lang.annotation.*;

@@ -7,7 +7,7 @@
        bean-discovery-mode="all">
 
     <interceptors>
-        <class>iu.piisj.eventmanager.usermanagement.OrganizerOnlyInterceptor</class>
+        <class>iu.piisj.eventmanager.accessmanagement.OrganizerOnlyInterceptor</class>
     </interceptors>
 
 </beans>

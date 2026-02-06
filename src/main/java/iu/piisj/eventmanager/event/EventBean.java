@@ -2,13 +2,8 @@ package iu.piisj.eventmanager.event;
 
 import iu.piisj.eventmanager.dto.EventDTO;
 import iu.piisj.eventmanager.repository.EventRepository;
-import iu.piisj.eventmanager.usermanagement.OrganizerOnly;
-import iu.piisj.eventmanager.usermanagement.User;
-import iu.piisj.eventmanager.usermanagement.UserRole;
-import jakarta.annotation.security.RolesAllowed;
+import iu.piisj.eventmanager.accessmanagement.OrganizerOnly;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 

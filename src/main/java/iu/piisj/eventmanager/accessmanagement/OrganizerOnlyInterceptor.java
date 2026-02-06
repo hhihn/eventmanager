@@ -1,5 +1,7 @@
-package iu.piisj.eventmanager.usermanagement;
+package iu.piisj.eventmanager.accessmanagement;
 
+import iu.piisj.eventmanager.usermanagement.User;
+import iu.piisj.eventmanager.usermanagement.UserRole;
 import jakarta.faces.context.FacesContext;
 import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
@@ -27,7 +29,6 @@ public class OrganizerOnlyInterceptor {
         }
 
         boolean isOrganizer = user.getRole().equals(UserRole.ORGANISATOR) || user.getRole().equals(UserRole.ADMIN);
-        System.out.println("USER ROLE" + user.getRole());
         if (!isOrganizer) {
             throw new SecurityException("Organizer role required.");
         }
