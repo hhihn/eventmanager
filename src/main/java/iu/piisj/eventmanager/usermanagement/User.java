@@ -47,6 +47,10 @@ public class User {
         this.state = newUserDTO.getState();
     }
 
+    public boolean isOrgaOrAdmin(){
+        return role.equals(UserRole.ORGANISATOR) || role.equals(UserRole.ADMIN);
+    }
+
     public String getUsername() {
         return username;
     }
