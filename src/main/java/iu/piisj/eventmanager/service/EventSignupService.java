@@ -9,6 +9,7 @@ import iu.piisj.eventmanager.repository.UserRepository;
 import iu.piisj.eventmanager.usermanagement.User;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -31,21 +32,33 @@ public class EventSignupService {
             return false;
         }
 
-        // Check if already signed up
-        Optional<EventSignup> existing =
-                signupRepository.findByUserAndEvent(userId, eventId);
+        Optional<EventSignup> existing = signupRepository.findByUserAndEvent(userId, eventId);
+
         if (existing.isPresent()) {
-            return false; // Already registered
+            EventSignup signup = existing.get();
+
+            // If already registered, don't allow duplicate signup
+            if (signup.getStatus() == SignupStatus.REGISTERED) {
+                return false;
+            }
+
+            // If cancelled, allow re-registration by resetting status to REGISTERED
+            if (signup.getStatus() == SignupStatus.CANCELLED) {
+                signup.setStatus(SignupStatus.REGISTERED);
+                signup.setSignupDate(LocalDateTime.now()); // Update signup date to now
+                signupRepository.save(signup);
+                return true;
+            }
         }
 
+        // Create new signup if none exists
         EventSignup signup = new EventSignup(user, event);
         signupRepository.save(signup);
         return true;
     }
 
     public boolean cancelSignup(Long userId, Long eventId) {
-        Optional<EventSignup> signup =
-                signupRepository.findByUserAndEvent(userId, eventId);
+        Optional<EventSignup> signup = signupRepository.findByUserAndEvent(userId, eventId);
 
         if (signup.isEmpty()) {
             return false;

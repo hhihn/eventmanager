@@ -1,5 +1,9 @@
 package iu.piisj.eventmanager.eventsignup;
 
+import iu.piisj.eventmanager.event.EventDetailBean;
+import iu.piisj.eventmanager.repository.EventRepository;
+import iu.piisj.eventmanager.repository.EventSignupRepository;
+import iu.piisj.eventmanager.repository.UserRepository;
 import iu.piisj.eventmanager.service.EventSignupService;
 import iu.piisj.eventmanager.usermanagement.User;
 import iu.piisj.eventmanager.event.Event;
@@ -8,43 +12,65 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
+
 @Named
-@RequestScoped
-public class EventSignupBean {
+@ViewScoped
+public class EventSignupBean implements Serializable {
 
     @Inject
-    private EventSignupService signupService;
+    private EventSignupRepository signupRepository;
+
+    @Inject
+    private EventSignupService eventSignupService;
 
     @Inject
     private UserLoginBean userBean;
 
     @Inject
+    private EventDetailBean eventDetailBean;  // Inject the detail bean
+
+    @Inject
     private FacesContext facesContext;
 
-    private Long eventId;
-    private Event event;
+    // Remove: private Long eventId; (not needed anymore)
+    // Remove: private Event event; (use eventDetailBean.selectedEvent instead)
     private boolean isUserSignedUp;
+    private List<EventSignup> eventSignups;
 
     @PostConstruct
     public void init() {
-        if (eventId != null) {
-            loadEventAndSignupStatus();
+        if (eventDetailBean != null && eventDetailBean.getSelectedEvent() != null) {
+            loadSignupStatus();
+            loadSignups();
         }
     }
 
-    private void loadEventAndSignupStatus() {
+    private void loadSignupStatus() {
         User currentUser = userBean.getLoggedInUser();
-        if (currentUser != null) {
-            isUserSignedUp = signupService.isUserSignedUp(
+        if (currentUser != null && eventDetailBean.getSelectedEvent() != null) {
+            isUserSignedUp = eventSignupService.isUserSignedUp(
                     currentUser.getId(),
-                    eventId
+                    eventDetailBean.getSelectedEvent().getId()
             );
         }
     }
 
+    private void loadSignups() {
+        if (eventDetailBean.getSelectedEvent() != null) {
+            eventSignups = signupRepository.findByEventId(
+                    eventDetailBean.getSelectedEvent().getId()
+            );
+        }
+    }
+
+    // JSF Actions
     public String signupForEvent() {
         User currentUser = userBean.getLoggedInUser();
         if (currentUser == null) {
@@ -54,9 +80,16 @@ public class EventSignupBean {
             return "redirect:login";
         }
 
-        boolean success = signupService.signupUserForEvent(
+        if (eventDetailBean.getSelectedEvent() == null) {
+            facesContext.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Event not found", null));
+            return null;
+        }
+
+        boolean success =  eventSignupService.signupUserForEvent(
                 currentUser.getId(),
-                eventId
+                eventDetailBean.getSelectedEvent().getId()
         );
 
         if (success) {
@@ -64,12 +97,14 @@ public class EventSignupBean {
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Successfully signed up for event", null));
             isUserSignedUp = true;
+            loadSignups();
+            eventDetailBean.loadEvent();
         } else {
             facesContext.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Failed to sign up. You may already be registered.", null));
         }
-        return null; // Reload page
+        return null;
     }
 
     public String cancelSignup() {
@@ -78,9 +113,16 @@ public class EventSignupBean {
             return null;
         }
 
-        boolean success = signupService.cancelSignup(
+        if (eventDetailBean.getSelectedEvent() == null) {
+            facesContext.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Event not found", null));
+            return null;
+        }
+
+        boolean success = eventSignupService.cancelSignup(
                 currentUser.getId(),
-                eventId
+                eventDetailBean.getSelectedEvent().getId()
         );
 
         if (success) {
@@ -88,6 +130,8 @@ public class EventSignupBean {
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Successfully cancelled event signup", null));
             isUserSignedUp = false;
+            loadSignups();
+            eventDetailBean.loadEvent();
         } else {
             facesContext.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -96,28 +140,18 @@ public class EventSignupBean {
         return null;
     }
 
-    // Getters and Setters
-    public Long getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
-    }
-
-    public Event getEvent() {
-        return event;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
+    // Getters
     public boolean isUserSignedUp() {
         return isUserSignedUp;
     }
 
-    public void setUserSignedUp(boolean userSignedUp) {
-        isUserSignedUp = userSignedUp;
+    public List<EventSignup> getEventSignups() {
+        return eventSignups;
+    }
+
+    public int getSignupCount() {
+        return eventDetailBean.getSelectedEvent() != null
+                ? eventDetailBean.getSelectedEvent().getSignupCount()
+                : 0;
     }
 }
