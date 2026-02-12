@@ -153,4 +153,6 @@ public class User {
     public void setEventSignups(List<EventSignup> eventSignups) {
         this.eventSignups = eventSignups;
     }
+
+    public Long getId() { return id;}
 }
