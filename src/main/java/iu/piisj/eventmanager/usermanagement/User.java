@@ -141,4 +141,8 @@ public class User {
     public void setOrganizedSessions(List<Session> organizedSessions) {
         this.organizedSessions = organizedSessions;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
