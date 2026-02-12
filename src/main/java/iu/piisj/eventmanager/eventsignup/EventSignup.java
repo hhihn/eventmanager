@@ -75,4 +75,5 @@ public class EventSignup {
     public void setStatus(SignupStatus status) {
         this.status = status;
     }
+
 }

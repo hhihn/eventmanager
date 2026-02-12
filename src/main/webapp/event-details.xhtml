@@ -3,6 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="jakarta.faces.core"
       xmlns:h="jakarta.faces.html"
+      xmlns:c="jakarta.tags.core"
       xmlns:ui="jakarta.faces.facelets">
 
 <ui:composition template="/templates/layout.xhtml">
@@ -95,17 +96,17 @@
 
                 <h:column>
                     <f:facet name="header">Vorname</f:facet>
-                    #{p.firstname}
+                    #{p.user.firstname}
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Nachname</f:facet>
-                    #{p.name}
+                    #{p.user.name}
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">E-Mail</f:facet>
-                    #{p.email}
+                    #{p.user.email}
                 </h:column>
             </h:dataTable>
 
@@ -117,7 +118,20 @@
             </h:panelGroup>
             <h:link value="Zurück zur Event-Liste" outcome="/events.xhtml"/>
         </h:panelGroup>
+        <h:form>
+            <h1>#{eventDetailBean.selectedEvent.name}</h1>
+            <p>Attendees: #{eventDetailBean.selectedEvent.signupCount}</p>
 
+            <c:if test="#{not eventSignupBean.userSignedUp}">
+                <h:commandButton action="#{eventSignupBean.signupForEvent}"
+                                 value="Sign Up for Event" />
+            </c:if>
+
+            <c:if test="#{eventSignupBean.userSignedUp}">
+                <h:commandButton action="#{eventSignupBean.cancelSignup}"
+                                 value="Cancel Signup" />
+            </c:if>
+        </h:form>
     </ui:define>
 </ui:composition>
 </html>

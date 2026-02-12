@@ -1,5 +1,7 @@
 package iu.piisj.eventmanager.event;
 
+import iu.piisj.eventmanager.eventsignup.EventSignup;
+import iu.piisj.eventmanager.eventsignup.SignupStatus;
 import iu.piisj.eventmanager.session.Session;
 import iu.piisj.eventmanager.usermanagement.User;
 import jakarta.persistence.*;
@@ -29,6 +31,9 @@ public class Event {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Session> sessions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EventSignup> participants = new ArrayList<>();
 
     private String name;
     private String location;
@@ -93,4 +98,21 @@ public class Event {
         this.sessions = sessions;
     }
 
+    public List<EventSignup> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<EventSignup> signups) {
+        this.participants = signups;
+    }
+
+    public int getSignupCount() {
+        return participants.size();
+    }
+
+    public boolean isUserSignedUp(User user) {
+        return participants.stream()
+                .anyMatch(s -> s.getUser().getId().equals(user.getId()) &&
+                        s.getStatus() == SignupStatus.REGISTERED);
+    }
 }
