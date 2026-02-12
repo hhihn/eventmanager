@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/templates/layout.xhtml">
+    <ui:define name="content">
+        <h:messages globalOnly="true"
+                    layout="list"
+                    styleClass="messages"/>
+
+        <h1>Meine registrierten Events</h1>
+
+        <h:panelGroup rendered="#{empty myEventsBean.mySignups}">
+            <p>Du hast dich noch bei keinem Event registriert.</p>
+            <h:link value="Zur Event-Liste" outcome="/events.xhtml"/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{not empty myEventsBean.mySignups}">
+            <p>Du bist bei #{myEventsBean.signupCount} Event(s) registriert.</p>
+
+            <h:dataTable value="#{myEventsBean.mySignups}"
+                         var="signup"
+                         styleClass="event-table">
+                <h:column>
+                    <f:facet name="header">Event-Name</f:facet>
+                    <h:link value="#{signup.event.name}"
+                            outcome="/event-details.xhtml">
+                        <f:param name="eventId" value="#{signup.event.id}" />
+                    </h:link>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Ort</f:facet>
+                    #{signup.event.location}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Datum</f:facet>
+                    #{signup.event.date}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Status</f:facet>
+                    #{signup.event.state}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Anmeldedatum</f:facet>
+                    <h:outputText value="#{signup.signupDate}">
+                        <f:convertDateTime type="localDateTime"
+                                           pattern="dd.MM.yyyy HH:mm" />
+                    </h:outputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Aktion</f:facet>
+                    <h:form>
+                        <h:commandButton
+                                action="#{myEventsBean.cancelSignup(signup.id)}"
+                                value="Abmelden"
+                                onclick="return confirm('Wirklich abmelden?');" />
+                    </h:form>
+                </h:column>
+            </h:dataTable>
+
+            <br/>
+            <h:link value="Zurück zur Event-Liste" outcome="/events.xhtml"/>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
+</html>

@@ -19,6 +19,8 @@
       <h:panelGroup rendered="#{userLoginBean.loggedIn}">
         |
         <h:link value="Veranstaltungen" outcome="/events"/>
+        |
+        <h:link value="Meine Events" outcome="/my-events.xhtml"/>
         <h:panelGroup rendered="#{userLoginBean.loggedInUser.orgaOrAdmin}">
           |
           <h:link value="Teilnehmende" outcome="/orga/participants"/>
