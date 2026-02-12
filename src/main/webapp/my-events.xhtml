@@ -43,7 +43,7 @@
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">Status</f:facet>
+                    <f:facet name="header">Event Status</f:facet>
                     #{signup.event.state}
                 </h:column>
 
@@ -53,6 +53,11 @@
                         <f:convertDateTime type="localDateTime"
                                            pattern="dd.MM.yyyy HH:mm" />
                     </h:outputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Anmeldung</f:facet>
+                    #{signup.status}
                 </h:column>
 
                 <h:column>
