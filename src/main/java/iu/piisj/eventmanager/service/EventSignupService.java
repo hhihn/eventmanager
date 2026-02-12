@@ -1,7 +1,10 @@
-package iu.piisj.eventmanager.eventsignup;
+package iu.piisj.eventmanager.service;
 
 import iu.piisj.eventmanager.event.Event;
+import iu.piisj.eventmanager.eventsignup.EventSignup;
+import iu.piisj.eventmanager.eventsignup.SignupStatus;
 import iu.piisj.eventmanager.repository.EventRepository;
+import iu.piisj.eventmanager.repository.EventSignupRepository;
 import iu.piisj.eventmanager.repository.UserRepository;
 import iu.piisj.eventmanager.usermanagement.User;
 import jakarta.enterprise.context.ApplicationScoped;

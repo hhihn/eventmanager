@@ -1,5 +1,7 @@
-package iu.piisj.eventmanager.eventsignup;
+package iu.piisj.eventmanager.repository;
 
+import iu.piisj.eventmanager.eventsignup.EventSignup;
+import iu.piisj.eventmanager.eventsignup.SignupStatus;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
