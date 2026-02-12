@@ -1,5 +1,6 @@
 package iu.piisj.eventmanager.eventsignup;
 
+import iu.piisj.eventmanager.repository.EventSignupRepository;
 import iu.piisj.eventmanager.usermanagement.User;
 import iu.piisj.eventmanager.event.EventDetailBean;
 import iu.piisj.eventmanager.usermanagement.UserLoginBean;
