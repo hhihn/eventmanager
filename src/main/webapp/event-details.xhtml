@@ -7,7 +7,9 @@
 
 <ui:composition template="/templates/layout.xhtml">
     <ui:define name="content">
-
+        <h:messages globalOnly="true"
+                    layout="list"
+                    styleClass="messages"/>
         <!-- /event-details.xhtml?eventId=123 -->
         <f:metadata>
             <f:viewParam name="eventId" value="#{eventDetailBean.eventId}" />
@@ -95,17 +97,34 @@
 
                 <h:column>
                     <f:facet name="header">Vorname</f:facet>
-                    #{p.firstname}
+                    #{p.user.firstname}
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Nachname</f:facet>
-                    #{p.name}
+                    #{p.user.name}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Benutzername</f:facet>
+                    #{p.user.username}
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">E-Mail</f:facet>
-                    #{p.email}
+                    #{p.user.email}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Datum</f:facet>
+                    <h:outputText value="#{p.signupDate}">
+                        <f:convertDateTime type="localDateTime" pattern="dd.MM.yyyy HH:mm" />
+                    </h:outputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Status</f:facet>
+                    #{p.signupDate}
                 </h:column>
             </h:dataTable>
 

@@ -69,13 +69,15 @@ public class EventSignupService {
     }
 
     public boolean cancelSignup(Long userId, Long eventId) {
+        // gibt es zu der event id und der userid eine passende signup?
         Optional<EventSignup> signup = eventSignupRepository.findByUserAndEvent(userId, eventId);
-
+        // wenn nicht, kann ich auch nicht cancel, also brechen wir ab
         if (signup.isEmpty()) {
             return false;
         }
-
+        // falls ja, dann setze den status auf cancelled
         signup.get().setStatus(SignupStatus.CANCELLED);
+        // und update das signup im repository
         eventSignupRepository.save(signup.get());
         return true;
     }
