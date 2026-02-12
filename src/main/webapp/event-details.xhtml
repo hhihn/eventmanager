@@ -116,6 +116,19 @@
                 </h:link>
             </h:panelGroup>
             <h:link value="Zurück zur Event-Liste" outcome="/events.xhtml"/>
+
+            <h:form>
+                <h:commandButton
+                    action="#{eventSignupBean.signupUserForEvent}"
+                    value="Für Event registrieren"
+                    rendered="#{not eventSignupBean.isUserSignedUp}" />
+                <h:commandButton
+                    action="#{eventSignupBean.cancelSignup}"
+                    value="Von diesem Event abmelden"
+                    rendered="#{eventSignupBean.isUserSignedUp}"/>
+            </h:form>
+
+
         </h:panelGroup>
 
     </ui:define>
