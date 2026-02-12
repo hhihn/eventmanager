@@ -29,6 +29,13 @@ public class EventSignupRepository {
                 .getResultList();
     }
 
+    public List<EventSignup> findByUserId(Long userId){
+        return em.createQuery("SELECT es FROM EventSignup es WHERE es.user.id = :userId",
+                        EventSignup.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
     public Optional<EventSignup> findByUserAndEvent(Long userId, Long eventId){
         try {
             EventSignup result = em.createQuery(
