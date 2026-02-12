@@ -136,7 +136,7 @@ public class EventSignupBean  implements Serializable {
         }
     }
 
-    public boolean isUserSignedUp() {
+    public boolean getIsUserSignedUp() {
         return isUserSignedUp;
     }
 

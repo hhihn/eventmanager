@@ -68,4 +68,16 @@ public class EventSignupService {
 
     }
 
+    public boolean cancelSignup(Long userId, Long eventId) {
+        Optional<EventSignup> signup = eventSignupRepository.findByUserAndEvent(userId, eventId);
+
+        if (signup.isEmpty()) {
+            return false;
+        }
+
+        signup.get().setStatus(SignupStatus.CANCELLED);
+        eventSignupRepository.save(signup.get());
+        return true;
+    }
+
 }

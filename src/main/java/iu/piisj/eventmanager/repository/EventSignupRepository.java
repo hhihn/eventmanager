@@ -16,7 +16,7 @@ public class EventSignupRepository {
             .createEntityManager();
 
     public void save(EventSignup signup){
-        em.getTransaction();
+        em.getTransaction().begin();
         em.persist(signup);
         em.getTransaction().commit();
     }
