@@ -41,4 +41,6 @@ public class UserRepository {
         }
     }
 
+    public User findById(Long id) { return em.find(User.class, id); }
+
 }
