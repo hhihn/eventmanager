@@ -12,9 +12,11 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serializable;
+
 @Named
 @ViewScoped
-public class SessionBean {
+public class SessionBean implements Serializable {
 
     @Inject
     private SessionService sessionService;
