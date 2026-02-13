@@ -99,6 +99,9 @@
                 <h:panelGroup rendered="#{empty eventDetailBean.selectedEvent.participants}">
                     <p>Noch keine Teilnehmenden registriert.</p>
                 </h:panelGroup>
+                <p>Anzahl der registrierten Teilnehmenden:
+                    <strong>#{eventDetailBean.selectedEvent.participants.size()}</strong>
+                </p>
                 <h:dataTable value="#{eventDetailBean.selectedEvent.participants}"
                              var="p"
                              rendered="#{not empty eventDetailBean.selectedEvent.participants}"
