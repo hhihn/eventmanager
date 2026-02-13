@@ -2,6 +2,8 @@ package iu.piisj.eventmanager.event;
 
 import iu.piisj.eventmanager.repository.EventRepository;
 import iu.piisj.eventmanager.usermanagement.User;
+import iu.piisj.eventmanager.usermanagement.UserLoginBean;
+import iu.piisj.eventmanager.usermanagement.UserRole;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -17,6 +19,24 @@ public class EventDetailBean implements Serializable {
 
     private Long eventId;
     private Event selectedEvent;
+    @Named
+    @Inject
+    private UserLoginBean userLoginBean;
+
+    public boolean canViewParticipants(){
+        User currentUser = userLoginBean.getLoggedInUser();
+
+        if (currentUser == null || selectedEvent == null){
+            return false;
+        }
+
+        if (currentUser.getRole().equals(UserRole.ADMIN)){
+            return true;
+        }
+
+        User eventOrganizer = selectedEvent.getOrganizer();
+        return (eventOrganizer != null && currentUser.getId().equals(eventOrganizer.getId()));
+    }
 
     public void loadEvent(){
         if (eventId == null){
