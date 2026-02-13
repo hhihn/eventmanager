@@ -1,6 +1,6 @@
 package iu.piisj.eventmanager.session;
 
-import iu.piisj.eventmanager.accessmanagement.OrganizerOnly;
+import iu.piisj.eventmanager.dto.SessionDTO;
 import iu.piisj.eventmanager.event.EventDetailBean;
 import iu.piisj.eventmanager.service.SessionService;
 import iu.piisj.eventmanager.usermanagement.User;
@@ -29,7 +29,7 @@ public class SessionBean implements Serializable {
     private FacesContext facesContext;
 
     private Long eventId;
-    private Session newSession = new Session();
+    private SessionDTO newSessionDTO = new SessionDTO();
 
     public boolean checkAuthorization() {
         User currentUser = userLoginBean.getLoggedInUser();
@@ -40,57 +40,88 @@ public class SessionBean implements Serializable {
         }
     }
 
-    @OrganizerOnly
     public String createSession() {
         User currentUser = userLoginBean.getLoggedInUser();
-        boolean isAuthorized = checkAuthorization();
-        if (eventId == null || currentUser == null || !isAuthorized) {
+
+        // Prüfe ob User eingeloggt ist
+        if (currentUser == null) {
             facesContext.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
-                            "Es ist ein Fehler aufgetreten", null));
-            return "redirect:index";
+                            "Bitte melden Sie sich an", null));
+            return "redirect:/login.xhtml?faces-redirect=true";
+        }
+
+        // Prüfe ob EventId vorhanden ist
+        if (eventId == null) {
+            facesContext.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Event nicht gefunden", null));
+            return null;
+        }
+
+        // Prüfe ob User autorisiert ist
+        if (!checkAuthorization()) {
+            facesContext.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "Sie haben keine Berechtigung, eine Session zu erstellen", null));
+            return null;
         }
 
         // Validierung
-        if (newSession.getTitle() == null || newSession.getTitle().trim().isEmpty()) {
+        String validationError = validateSession();
+        if (validationError != null) {
             facesContext.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Titel ist erforderlich", null));
+                            validationError, null));
             return null;
         }
 
-        if (newSession.getStartTime() == null || newSession.getEndTime() == null) {
-            facesContext.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Start- und Endzeit sind erforderlich", null));
-            return null;
-        }
+        // Erstelle Session aus DTO
+        Session session = new Session(
+                newSessionDTO.getTitle(),
+                newSessionDTO.getSpeaker(),
+                newSessionDTO.getRoom(),
+                newSessionDTO.getStartTime(),
+                newSessionDTO.getEndTime()
+        );
 
-        if (newSession.getStartTime().isAfter(newSession.getEndTime())) {
-            facesContext.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Startzeit muss vor Endzeit liegen", null));
-            return null;
-        }
-
-        boolean success = sessionService.createSession(newSession, currentUser, eventId);
+        boolean success = sessionService.createSession(session, currentUser, eventId);
 
         if (success) {
             facesContext.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Session erfolgreich erstellt", null));
+
             // Reload Event um Sessions zu aktualisieren
             if (eventDetailBean != null) {
                 eventDetailBean.loadEvent();
             }
-            newSession = new Session();
+
+            newSessionDTO = new SessionDTO();
             return "redirect:/event-details.xhtml?eventId=" + eventId + "&faces-redirect=true";
         } else {
             facesContext.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Sie haben keine Berechtigung oder es ist ein Fehler aufgetreten", null));
+                            "Fehler beim Erstellen der Session", null));
             return null;
         }
+    }
+
+    // Validierungslogik in separate Methode ausgelagert
+    private String validateSession() {
+        if (newSessionDTO.getTitle() == null || newSessionDTO.getTitle().trim().isEmpty()) {
+            return "Titel ist erforderlich";
+        }
+
+        if (newSessionDTO.getStartTime() == null || newSessionDTO.getEndTime() == null) {
+            return "Start- und Endzeit sind erforderlich";
+        }
+
+        if (newSessionDTO.getStartTime().isAfter(newSessionDTO.getEndTime())) {
+            return "Startzeit muss vor Endzeit liegen";
+        }
+
+        return null;  // Keine Fehler
     }
 
     // Getters and Setters
@@ -102,12 +133,11 @@ public class SessionBean implements Serializable {
         this.eventId = eventId;
     }
 
-    public Session getNewSession() {
-        return newSession;
+    public SessionDTO getNewSessionDTO() {
+        return newSessionDTO;
     }
 
-    public void setNewSession(Session newSession) {
-        this.newSession = newSession;
+    public void setNewSessionDTO(SessionDTO newSessionDTO) {
+        this.newSessionDTO = newSessionDTO;
     }
-
 }
