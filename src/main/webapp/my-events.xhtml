@@ -66,6 +66,7 @@
                         <h:commandButton
                                 action="#{myEventsBean.cancelSignup(signup.id)}"
                                 value="Abmelden"
+                                rendered="#{signup.status ne 'CANCELLED'}"
                                 onclick="return confirm('Wirklich abmelden?');" />
                     </h:form>
                 </h:column>

@@ -6,6 +6,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 
+import java.util.List;
+
 @ApplicationScoped
 public class UserRepository {
 
@@ -42,5 +44,10 @@ public class UserRepository {
     }
 
     public User findById(Long id) { return em.find(User.class, id); }
+
+    public List<User> findAll() {
+        return em.createQuery("SELECT u FROM User u ORDER BY u.name, u.firstname", User.class)
+                .getResultList();
+    }
 
 }
