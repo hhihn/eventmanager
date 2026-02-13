@@ -48,6 +48,10 @@ public class Event {
         this.state = state;
     }
 
+    public int getSessionCount() {
+        return sessions.size();
+    }
+
     // Getter & Setter
     public Long getId() {
         return id;

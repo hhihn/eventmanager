@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<f:metadata>
+  <f:viewParam name="eventId" value="#{sessionBean.eventId}" />
+</f:metadata>
+
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+    <h:messages globalOnly="true" layout="list" styleClass="messages"/>
+
+    <h:panelGroup rendered="#{not sessionBean.checkAuthorization()}">
+      <h1>Keine Berechtigung</h1>
+      <p>Sie haben keine Berechtigung, eine Session zu erstellen.</p>
+      <h:link value="Zurück" outcome="/event-details.xhtml">
+        <f:param name="eventId" value="#{sessionBean.eventId}" />
+      </h:link>
+    </h:panelGroup>
+
+    <h:panelGroup rendered="#{sessionBean.checkAuthorization()}">
+      <h1>Neue Session erstellen</h1>
+      <h:form>
+        <h:panelGrid columns="2" styleClass="form-grid">
+          <h:outputLabel value="Titel:" for="title"/>
+          <h:inputText id="title" value="#{sessionBean.newSession.title}"
+                       required="true" requiredMessage="Titel ist erforderlich"/>
+
+          <h:outputLabel value="Speaker:" for="speaker"/>
+          <h:inputText id="speaker" value="#{sessionBean.newSession.speaker}"
+                       required="true" requiredMessage="Speaker ist erforderlich"/>
+
+          <h:outputLabel value="Raum:" for="room"/>
+          <h:inputText id="room" value="#{sessionBean.newSession.room}"/>
+
+          <h:outputLabel value="Startzeit:" for="startTime"/>
+          <h:inputText id="startTime"
+                       type="datetime-local"
+                       value="#{sessionBean.newSession.startTime}"
+                       required="true"
+                       requiredMessage="Startzeit ist erforderlich">
+            <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd'T'HH:mm" />
+          </h:inputText>
+
+          <h:outputLabel value="Endzeit:" for="endTime"/>
+          <h:inputText id="endTime"
+                       type="datetime-local"
+                       value="#{sessionBean.newSession.endTime}"
+                       required="true"
+                       requiredMessage="Endzeit ist erforderlich">
+            <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd'T'HH:mm" />
+          </h:inputText>
+        </h:panelGrid>
+
+        <br/>
+        <h:commandButton action="#{sessionBean.createSession}"
+                         value="Session erstellen"
+                         styleClass="btn-primary"/>
+        <h:link value="Abbrechen" outcome="/event-details.xhtml">
+          <f:param name="eventId" value="#{sessionBean.eventId}" />
+        </h:link>
+      </h:form>
+    </h:panelGroup>
+  </ui:define>
+</ui:composition>
+</html>

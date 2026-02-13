@@ -29,7 +29,10 @@
                 <h:outputText value="#{eventDetailBean.selectedEvent.location}"/>
 
                 <h:outputText value="Datum:"/>
-                <h:outputText value="#{eventDetailBean.selectedEvent.date}"/>
+                <h:outputText value="#{eventDetailBean.selectedEvent.date}">
+                    <f:convertDateTime type="localDateTime"
+                                       pattern="dd.MM.yyyy HH:mm" />
+                </h:outputText>
 
                 <h:outputText value="Status:"/>
                 <h:outputText value="#{eventDetailBean.selectedEvent.state}"/>
@@ -68,12 +71,18 @@
 
                 <h:column>
                     <f:facet name="header">Start</f:facet>
-                    #{s.startTime}
+                    <h:outputText value="#{s.startTime}">
+                        <f:convertDateTime type="localDateTime"
+                                           pattern="dd.MM.yyyy HH:mm" />
+                    </h:outputText>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Ende</f:facet>
-                    #{s.endTime}
+                    <h:outputText value="#{s.endTime}">
+                        <f:convertDateTime type="localDateTime"
+                                           pattern="dd.MM.yyyy HH:mm" />
+                    </h:outputText>
                 </h:column>
 
                 <h:column>
