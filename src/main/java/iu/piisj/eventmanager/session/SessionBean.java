@@ -3,6 +3,7 @@ package iu.piisj.eventmanager.session;
 import iu.piisj.eventmanager.accessmanagement.OrganizerOnly;
 import iu.piisj.eventmanager.dto.SessionDTO;
 import iu.piisj.eventmanager.event.EventDetailBean;
+import iu.piisj.eventmanager.service.SessionService;
 import iu.piisj.eventmanager.usermanagement.User;
 import iu.piisj.eventmanager.usermanagement.UserLoginBean;
 import jakarta.faces.application.FacesMessage;
@@ -92,11 +93,11 @@ public class SessionBean {
         }
 
         if (newSessionDTO.getStartTime() == null || newSessionDTO.getEndTime() == null){
-            return "Start- und Endzeit sind erforderlich."
+            return "Start- und Endzeit sind erforderlich.";
         }
 
         if (newSessionDTO.getStartTime().isAfter(newSessionDTO.getEndTime())){
-            return "Startzeit muss vor Endzeit liegen."
+            return "Startzeit muss vor Endzeit liegen.";
         }
 
         return null;
