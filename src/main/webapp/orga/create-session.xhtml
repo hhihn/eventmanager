@@ -26,20 +26,20 @@
       <h:form>
         <h:panelGrid columns="2" styleClass="form-grid">
           <h:outputLabel value="Titel:" for="title"/>
-          <h:inputText id="title" value="#{sessionBean.newSession.title}"
+          <h:inputText id="title" value="#{sessionBean.newSessionDTO.title}"
                        required="true" requiredMessage="Titel ist erforderlich"/>
 
           <h:outputLabel value="Speaker:" for="speaker"/>
-          <h:inputText id="speaker" value="#{sessionBean.newSession.speaker}"
+          <h:inputText id="speaker" value="#{sessionBean.newSessionDTO.speaker}"
                        required="true" requiredMessage="Speaker ist erforderlich"/>
 
           <h:outputLabel value="Raum:" for="room"/>
-          <h:inputText id="room" value="#{sessionBean.newSession.room}"/>
+          <h:inputText id="room" value="#{sessionBean.newSessionDTO.room}"/>
 
           <h:outputLabel value="Startzeit:" for="startTime"/>
           <h:inputText id="startTime"
                        type="datetime-local"
-                       value="#{sessionBean.newSession.startTime}"
+                       value="#{sessionBean.newSessionDTO.startTime}"
                        required="true"
                        requiredMessage="Startzeit ist erforderlich">
             <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd'T'HH:mm" />
@@ -48,7 +48,7 @@
           <h:outputLabel value="Endzeit:" for="endTime"/>
           <h:inputText id="endTime"
                        type="datetime-local"
-                       value="#{sessionBean.newSession.endTime}"
+                       value="#{sessionBean.newSessionDTO.endTime}"
                        required="true"
                        requiredMessage="Endzeit ist erforderlich">
             <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd'T'HH:mm" />
